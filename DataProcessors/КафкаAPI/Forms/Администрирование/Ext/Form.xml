@@ -778,6 +778,61 @@
 						</InputField>
 					</ChildItems>
 				</Page>
+				<Page name="СтраницаПрокси" id="200">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Прокси</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Страница прокси</v8:content>
+						</v8:item>
+					</ToolTip>
+					<ExtendedTooltip name="СтраницаПроксиРасширеннаяПодсказка" id="201"/>
+					<ChildItems>
+						<UsualGroup name="ГруппаПрокси1" id="209">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа прокси1</v8:content>
+								</v8:item>
+							</Title>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаПрокси1РасширеннаяПодсказка" id="210"/>
+							<ChildItems>
+								<Button name="ПроксиПолучитьОписание" id="202">
+									<Type>UsualButton</Type>
+									<CommandName>Form.Command.ПроксиПолучитьОписание</CommandName>
+									<ExtendedTooltip name="ПроксиПолучитьОписаниеРасширеннаяПодсказка" id="203"/>
+								</Button>
+								<Button name="ПроксиПолучитьСостояние" id="207">
+									<Type>UsualButton</Type>
+									<CommandName>Form.Command.ПроксиПолучитьСостояние</CommandName>
+									<ExtendedTooltip name="ПроксиПолучитьСостояниеРасширеннаяПодсказка" id="208"/>
+								</Button>
+							</ChildItems>
+						</UsualGroup>
+						<InputField name="ПроксиРезультат" id="204">
+							<DataPath>ПроксиРезультат</DataPath>
+							<ReadOnly>true</ReadOnly>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Результат</v8:content>
+								</v8:item>
+							</Title>
+							<TitleLocation>None</TitleLocation>
+							<AutoMaxWidth>false</AutoMaxWidth>
+							<MultiLine>true</MultiLine>
+							<ContextMenu name="ПроксиРезультатКонтекстноеМеню" id="205"/>
+							<ExtendedTooltip name="ПроксиРезультатРасширеннаяПодсказка" id="206"/>
+						</InputField>
+					</ChildItems>
+				</Page>
 			</ChildItems>
 		</Pages>
 		<InputField name="КодОтвета" id="192">
@@ -1299,6 +1354,21 @@
 				</v8:StringQualifiers>
 			</Type>
 		</Attribute>
+		<Attribute name="ПроксиРезультат" id="22">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Прокси результат</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
 	</Attributes>
 	<Commands>
 		<Command name="МетаданныеПолучить" id="1">
@@ -1396,6 +1466,24 @@
 				</v8:item>
 			</ToolTip>
 			<Action>НастройкиБрокераПолучить</Action>
+		</Command>
+		<Command name="ПроксиПолучитьОписание" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Получить описание прокси</v8:content>
+				</v8:item>
+			</Title>
+			<Action>ПроксиПолучитьОписание</Action>
+		</Command>
+		<Command name="ПроксиПолучитьСостояние" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Получить состояние прокси</v8:content>
+				</v8:item>
+			</Title>
+			<Action>ПроксиПолучитьСостояние</Action>
 		</Command>
 	</Commands>
 </Form>
