@@ -51,7 +51,7 @@
 				<xr:Item xsi:type="xr:MDObjectRef">Role.КафкаАдминистрирование</xr:Item>
 			</DefaultRoles>
 			<Vendor>Савельев Сергей</Vendor>
-			<Version>2.1.1</Version>
+			<Version>3.0.0</Version>
 			<UpdateCatalogAddress/>
 			<IncludeHelpInContents>false</IncludeHelpInContents>
 			<UseManagedFormInOrdinaryApplication>false</UseManagedFormInOrdinaryApplication>
@@ -230,8 +230,8 @@
 			<CommonModule>КафкаПовтИсп</CommonModule>
 			<ScheduledJob>КафкаВыгрузка</ScheduledJob>
 			<ScheduledJob>КафкаЗагрузка</ScheduledJob>
-			<Catalog>КафкаШиныОбмена</Catalog>
 			<Catalog>КафкаКластеры</Catalog>
+			<Catalog>КафкаШиныОбмена</Catalog>
 			<DataProcessor>КафкаAPI</DataProcessor>
 			<InformationRegister>КафкаПозиции</InformationRegister>
 		</ChildObjects>

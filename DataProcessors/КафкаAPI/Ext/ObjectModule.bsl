@@ -9,26 +9,26 @@
 Перем Соединение;
 Перем ПараметрыЗаписиJSON;
 
-Процедура Инициализировать(Знач АдресПрокси=Неопределено, Пользователь=Неопределено, Пароль=Неопределено, Таймаут=65) Экспорт
+Процедура Инициализировать(Знач ПроксиАдрес=Неопределено, ПроксиПользователь=Неопределено, ПроксиПароль=Неопределено, ПроксиТаймаут=65) Экспорт
 		
-	Если АдресПрокси=Неопределено Или ПустаяСтрока(АдресПрокси) Тогда
+	Если ПроксиАдрес=Неопределено Или ПустаяСтрока(ПроксиАдрес) Тогда
 		_Сервер = "localhost";
 		_Порт = "8080";
 	Иначе
-		ПозДвоеточие = Найти(АдресПрокси, ":");
+		ПозДвоеточие = Найти(ПроксиАдрес, ":");
 		Если ПозДвоеточие = 0 Тогда
-			_Сервер = АдресПрокси;
+			_Сервер = ПроксиАдрес;
 			_Порт = "";
 		Иначе
-			_Сервер = Лев(АдресПрокси, ПозДвоеточие-1);
-			_Порт = Сред(АдресПрокси, ПозДвоеточие+1);
+			_Сервер = Лев(ПроксиАдрес, ПозДвоеточие-1);
+			_Порт = Сред(ПроксиАдрес, ПозДвоеточие+1);
 		КонецЕсли;
 	КонецЕсли;
 		
 	Если ПустаяСтрока(_Порт) Тогда	
-		Соединение = Новый HTTPСоединение(_Сервер, , Пользователь, Пароль, , Таймаут);
+		Соединение = Новый HTTPСоединение(_Сервер, , ПроксиПользователь, ПроксиПароль, , ПроксиТаймаут);
 	Иначе
-		Соединение = Новый HTTPСоединение(_Сервер, Число(_Порт), Пользователь, Пароль, , Таймаут);
+		Соединение = Новый HTTPСоединение(_Сервер, Число(_Порт), ПроксиПользователь, ПроксиПароль, , ПроксиТаймаут);
 	КонецЕсли;
 	
 	ПараметрыЗаписиJSON = Новый ПараметрыЗаписиJSON(ПереносСтрокJSON.Нет);
@@ -37,62 +37,87 @@
 
 #Область Администрирование
 
-Функция GetMetadata(Знач Timeout=Неопределено) Экспорт
+Функция AdminCreate(Name, Config, Знач ExpirationTimeout=Неопределено) Экспорт
 	
-	Если Timeout = Неопределено Тогда
-		Timeout = 10000;
+	Если ExpirationTimeout = Неопределено Тогда
+		ExpirationTimeout = 60000;
 	КонецЕсли;
 	
-	HttpОтвет = GetMetadata_(Timeout);
+	HttpОтвет = AdminCreate_(Name, Config, ExpirationTimeout);
 	
-	Возврат ПрочитатьТелоОтвета(HttpОтвет);
+	Admin = ПрочитатьТелоОтвета(HttpОтвет);
 	
-КонецФункции
-Функция GetMetadata_(Timeout)
-	
-	HttpЗапрос = Новый HTTPЗапрос("admin?timeout="+Формат(Timeout, "ЧН=0; ЧГ=0"));
-	
-	HttpОтвет = Соединение.Получить(HttpЗапрос);
-	
-	Возврат ПроверитьОтвет(HttpОтвет);
-	
-КонецФункции	
-
-Функция GetTopicsMetadata(Знач Timeout=Неопределено) Экспорт
-	
-	Если Timeout = Неопределено Тогда
-		Timeout = 10000;
-	КонецЕсли;
-	
-	HttpОтвет = GetTopicsMetadata_(Timeout);
-	
-	Возврат ПрочитатьТелоОтвета(HttpОтвет);
-	
-КонецФункции
-Функция GetTopicsMetadata_(Timeout)
-	
-	HttpЗапрос = Новый HTTPЗапрос("admin/topics?timeout="+Формат(Timeout, "ЧН=0; ЧГ=0"));
+	//Если Admin = Неопределено Тогда
+	//	Возврат Неопределено;
+	//КонецЕсли;
 		
-	Ответ = Соединение.Получить(HttpЗапрос);
+	Возврат Admin;
 	
-	Возврат ПроверитьОтвет(Ответ);
+КонецФункции
+Функция AdminCreate_(Name, Config, ExpirationTimeout)
 	
-КонецФункции	
+	Body = Новый Структура;
+	Body.Вставить("Name", Name);
+	Body.Вставить("Config", Config);
+	Body.Вставить("ExpirationTimeoutMs", ExpirationTimeout);
+	
+	HttpЗапрос = Новый HTTPЗапрос("admin");
+		
+	ЗаписатьJSONвHttpЗапрос(HttpЗапрос, Body);
 
-Функция GetTopicMetadata(Topic, Знач Timeout=Неопределено) Экспорт
+	HttpОтвет = Соединение.ОтправитьДляОбработки(HttpЗапрос);
 	
-	Если Timeout = Неопределено Тогда
-		Timeout = 10000;
+	Возврат ПроверитьОтвет(HttpОтвет);
+	
+КонецФункции
+
+Функция AdminRelease(AdminId, Token) Экспорт
+	
+	// Если уже была попытка удалить экземаляр, вторую попытку не производим.
+	Если AdminId = Null Тогда
+		Возврат Истина;
+	КонецЕсли;
+	AdminId_ = AdminId;
+	AdminId = Null;
+	
+	КодОтвета_ = КодОтвета;
+	ОписаниеОшибки_ = ОписаниеОшибки;
+	
+	HttpОтвет = AdminRelease_(AdminId_, Token);
+	
+	// ???
+	Если КодОтвета_<200 Или КодОтвета_>299 Тогда
+		КодОтвета = КодОтвета_;
+		ОписаниеОшибки = ОписаниеОшибки_;
 	КонецЕсли;
 	
-	HttpОтвет = GetTopicMetadata_(Topic, Timeout);
+	Возврат (HttpОтвет<>Неопределено);
+	
+КонецФункции
+Функция AdminRelease_(AdminId, Token)
+	
+	HttpЗапрос = Новый HTTPЗапрос("admin/"+AdminId+"?token="+Token);
+		
+	HttpОтвет = Соединение.Удалить(HttpЗапрос);
+	
+	Возврат ПроверитьОтвет(HttpОтвет);
+	
+КонецФункции
+
+Функция AdminGet(AdminId) Экспорт
+	
+	Если Не ЗначениеЗаполнено(AdminId) Тогда
+		ВызватьИсключение "Не заполнен Id администратора. Возможно, экземпляр администратора уже был удален.";
+	КонецЕсли;
+	
+	HttpОтвет = AdminGet_(AdminId);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет);
 	
 КонецФункции
-Функция GetTopicMetadata_(Topic, Timeout)
+Функция AdminGet_(AdminId)
 	
-	HttpЗапрос = Новый HTTPЗапрос("admin/topics/"+Topic+"?timeout="+Формат(Timeout, "ЧН=0; ЧГ=0"));
+	HttpЗапрос = Новый HTTPЗапрос("admin/"+AdminId);
 	
 	HttpОтвет = Соединение.Получить(HttpЗапрос);
 	
@@ -100,62 +125,57 @@
 	
 КонецФункции	
 
-Функция GetTopicConfig(Topic, Знач Timeout=Неопределено) Экспорт
+Функция AdminGetMetadata(AdminId, Token, Topic=Неопределено, Знач Timeout=Неопределено) Экспорт
+	
+	Если Не ЗначениеЗаполнено(AdminId) Тогда
+		ВызватьИсключение "Не заполнен Id администратора. Возможно, экземпляр администратора уже был удален.";
+	КонецЕсли;
 	
 	Если Timeout = Неопределено Тогда
 		Timeout = 10000;
 	КонецЕсли;
 	
-	HttpОтвет = GetTopicConfig_(Topic, Timeout);
+	HttpОтвет = AdminGetMetadata_(AdminId, Token, Topic, Timeout);
+	
+	Возврат ПрочитатьТелоОтвета(HttpОтвет);
+	
+КонецФункции
+Функция AdminGetMetadata_(AdminId, Token, Topic, Timeout)
+	
+	АдресРесурса = "admin/"+AdminId+"/metadata?token="+Token;
+	Если Topic <> Неопределено Тогда
+		АдресРесурса = АдресРесурса + "&topic="+Topic;
+	КонецЕсли;
+	АдресРесурса = АдресРесурса + "&timeout="+Формат(Timeout, "ЧН=0; ЧГ=0");
+	
+	HttpЗапрос = Новый HTTPЗапрос(АдресРесурса);
+	
+	HttpОтвет = Соединение.Получить(HttpЗапрос);
+	
+	Возврат ПроверитьОтвет(HttpОтвет);
+	
+КонецФункции	
+
+Функция AdminGetTopicConfig(AdminId, Token, Topic, Знач Timeout=Неопределено) Экспорт
+	
+	Если Не ЗначениеЗаполнено(AdminId) Тогда
+		ВызватьИсключение "Не заполнен Id администратора. Возможно, экземпляр администратора уже был удален.";
+	КонецЕсли;
+	
+	Если Timeout = Неопределено Тогда
+		Timeout = 10000;
+	КонецЕсли;
+	
+	HttpОтвет = AdminGetTopicConfig_(AdminId, Token, Topic, Timeout);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет, Истина);
 	
 КонецФункции
-Функция GetTopicConfig_(Topic, Timeout)
+Функция AdminGetTopicConfig_(AdminId, Token, Topic, Timeout)
 	
-	HttpЗапрос = Новый HTTPЗапрос("admin/topics/"+Topic+"/config?timeout="+Формат(Timeout, "ЧН=0; ЧГ=0"));
+	АдресРесурса = "admin/"+AdminId+"/config?token="+Token+"&topic="+Topic+"&timeout="+Формат(Timeout, "ЧН=0; ЧГ=0");
 	
-	HttpОтвет = Соединение.Получить(HttpЗапрос);
-	
-	Возврат ПроверитьОтвет(HttpОтвет);
-	
-КонецФункции	
-
-Функция GetBrokersMetadata(Знач Timeout=Неопределено) Экспорт
-	
-	Если Timeout = Неопределено Тогда
-		Timeout = 10000;
-	КонецЕсли;
-	
-	HttpОтвет = GetBrokersMetadata_(Timeout);
-	
-	Возврат ПрочитатьТелоОтвета(HttpОтвет);
-	
-КонецФункции
-Функция GetBrokersMetadata_(Timeout)
-	
-	HttpЗапрос = Новый HTTPЗапрос("admin/brokers?timeout="+Формат(Timeout, "ЧН=0; ЧГ=0"));
-		
-	Ответ = Соединение.Получить(HttpЗапрос);
-	
-	Возврат ПроверитьОтвет(Ответ);
-	
-КонецФункции	
-
-Функция GetBrokerMetadata(BrokerId, Знач Timeout=Неопределено) Экспорт
-	
-	Если Timeout = Неопределено Тогда
-		Timeout = 10000;
-	КонецЕсли;
-	
-	HttpОтвет = GetBrokerMetadata_(BrokerId, Timeout);
-	
-	Возврат ПрочитатьТелоОтвета(HttpОтвет);
-	
-КонецФункции
-Функция GetBrokerMetadata_(BrokerId, Timeout)
-	
-	HttpЗапрос = Новый HTTPЗапрос("admin/brokers/"+Формат(BrokerId, "ЧН=0; ЧГ=0")+"?timeout="+Формат(Timeout, "ЧН=0; ЧГ=0"));
+	HttpЗапрос = Новый HTTPЗапрос(АдресРесурса);
 	
 	HttpОтвет = Соединение.Получить(HttpЗапрос);
 	
@@ -163,20 +183,26 @@
 	
 КонецФункции	
 
-Функция GetBrokerConfig(BrokerId, Знач Timeout=Неопределено) Экспорт
+Функция AdminGetBrokerConfig(AdminId, Token, BrokerId, Знач Timeout=Неопределено) Экспорт
+	
+	Если Не ЗначениеЗаполнено(AdminId) Тогда
+		ВызватьИсключение "Не заполнен Id администратора. Возможно, экземпляр администратора уже был удален.";
+	КонецЕсли;
 	
 	Если Timeout = Неопределено Тогда
 		Timeout = 10000;
 	КонецЕсли;
 	
-	HttpОтвет = GetBrokerConfig_(BrokerId, Timeout);
+	HttpОтвет = AdminGetBrokerConfig_(AdminId, Token, BrokerId, Timeout);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет, Истина);
 	
 КонецФункции
-Функция GetBrokerConfig_(BrokerId, Timeout)
+Функция AdminGetBrokerConfig_(AdminId, Token, BrokerId, Timeout)
 	
-	HttpЗапрос = Новый HTTPЗапрос("admin/brokers/"+Формат(BrokerId, "ЧН=0; ЧГ=0")+"/config?timeout="+Формат(Timeout, "ЧН=0; ЧГ=0"));
+	АдресРесурса = "admin/"+AdminId+"/config?token="+Token+"&broker="+BrokerId+"&timeout="+Формат(Timeout, "ЧН=0; ЧГ=0");
+	
+	HttpЗапрос = Новый HTTPЗапрос(АдресРесурса);
 	
 	HttpОтвет = Соединение.Получить(HttpЗапрос);
 	
@@ -184,21 +210,25 @@
 	
 КонецФункции	
 
-Функция CreateTopic(Topic, NumPartitions=Неопределено, ReplicationFactor=Неопределено, Config=Неопределено, Знач Timeout=Неопределено) Экспорт
+Функция AdminCreateTopic(AdminId, Token, Topic, NumPartitions=Неопределено, ReplicationFactor=Неопределено, Config=Неопределено, Знач Timeout=Неопределено) Экспорт
+	
+	Если Не ЗначениеЗаполнено(AdminId) Тогда
+		ВызватьИсключение "Не заполнен Id администратора. Возможно, экземпляр администратора уже был удален.";
+	КонецЕсли;
 	
 	Если Timeout = Неопределено Тогда
 		Timeout = 10000;
 	КонецЕсли;
 	
-	HttpОтвет = CreateTopic_(Topic, NumPartitions, ReplicationFactor, Config, Timeout);
+	HttpОтвет = AdminCreateTopic_(AdminId, Token, Topic, NumPartitions, ReplicationFactor, Config, Timeout);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет);
 	
 КонецФункции
-Функция CreateTopic_(Topic, NumPartitions, ReplicationFactor, Config, Timeout)
+Функция AdminCreateTopic_(AdminId, Token, Topic, NumPartitions, ReplicationFactor, Config, Timeout)
 	
 	Тело = Новый Структура;
-	Тело.Вставить("Name", Topic);
+	Тело.Вставить("Topic", Topic);
 	Если NumPartitions <> Неопределено Тогда
 		Тело.Вставить("NumPartitions", NumPartitions);
 	КонецЕсли;
@@ -209,7 +239,9 @@
 		Тело.Вставить("Config", Config);
 	КонецЕсли;
 	
-	HttpЗапрос = Новый HTTPЗапрос("admin/topics?timeout="+Формат(Timeout, "ЧН=0; ЧГ=0"));
+	АдресРесурса = "admin/"+AdminId+"/metadata?token="+Token+"&timeout="+Формат(Timeout, "ЧН=0; ЧГ=0");
+	
+	HttpЗапрос = Новый HTTPЗапрос(АдресРесурса);
 	
 	ЗаписатьJSONвHttpЗапрос(HttpЗапрос, Тело);
 	
@@ -223,39 +255,106 @@
 
 #Область Отправка
 
-Функция Produce(Topic, Partition=Неопределено, Value, Key=Неопределено, Headers=Неопределено, ValueSchema=Неопределено, KeySchema=Неопределено) Экспорт
+Функция ProducerCreate(Name, Config, Знач ExpirationTimeout=Неопределено) Экспорт
+	
+	Если ExpirationTimeout = Неопределено Тогда
+		ExpirationTimeout = 60000;
+	КонецЕсли;
+	
+	HttpОтвет = ProducerCreate_(Name, Config, ExpirationTimeout);
+	
+	Producer = ПрочитатьТелоОтвета(HttpОтвет);
+	
+	//Если Producer = Неопределено Тогда
+	//	Возврат Неопределено;
+	//КонецЕсли;
 		
-	HttpОтвет = Produce_(Topic, Partition, Value, Key, Headers, ValueSchema, KeySchema);
+	Возврат Producer;
+	
+КонецФункции
+Функция ProducerCreate_(Name, Config, ExpirationTimeout)
+	
+	Body = Новый Структура;
+	Body.Вставить("Name", Name);
+	Body.Вставить("Config", Config);
+	Body.Вставить("ExpirationTimeoutMs", ExpirationTimeout);
+	
+	HttpЗапрос = Новый HTTPЗапрос("producer");
+		
+	ЗаписатьJSONвHttpЗапрос(HttpЗапрос, Body);
+
+	HttpОтвет = Соединение.ОтправитьДляОбработки(HttpЗапрос);
+	
+	Возврат ПроверитьОтвет(HttpОтвет);
+	
+КонецФункции
+
+Функция ProducerRelease(ProducerId, Token) Экспорт
+	
+	// Если уже была попытка удалить экземаляр, вторую попытку не производим.
+	Если ProducerId = Null Тогда
+		Возврат Истина;
+	КонецЕсли;
+	ProducerId_ = ProducerId;
+	ProducerId = Null;
+	
+	КодОтвета_ = КодОтвета;
+	ОписаниеОшибки_ = ОписаниеОшибки;
+	
+	HttpОтвет = ProducerRelease_(ProducerId_, Token);
+	
+	// ???
+	Если КодОтвета_<200 Или КодОтвета_>299 Тогда
+		КодОтвета = КодОтвета_;
+		ОписаниеОшибки = ОписаниеОшибки_;
+	КонецЕсли;
+	
+	Возврат (HttpОтвет<>Неопределено);
+	
+КонецФункции
+Функция ProducerRelease_(ProducerId, Token)
+	
+	HttpЗапрос = Новый HTTPЗапрос("producer/"+ProducerId+"?token="+Token);
+		
+	HttpОтвет = Соединение.Удалить(HttpЗапрос);
+	
+	Возврат ПроверитьОтвет(HttpОтвет);
+	
+КонецФункции
+
+Функция ProducerGet(ProducerId) Экспорт
+	
+	Если Не ЗначениеЗаполнено(ProducerId) Тогда
+		ВызватьИсключение "Не заполнен Id отправителя. Возможно, экземпляр отправителя уже был удален.";
+	КонецЕсли;
+	
+	HttpОтвет = ProducerGet_(ProducerId);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет);
 	
 КонецФункции
-//Функция ProduceGeneric(Topic, Partition=Неопределено, Value, ValueType, Key=Неопределено, KeyType=Неопределено, Headers=Неопределено) Экспорт
-//	
-//	Если Key <> Неопределено Тогда
-//		Если KeyType = "String" Тогда
-//			KeyString = Key;
-//		ИначеЕсли KeyType = "AvroAsXml" Тогда
-//			KeyString = КафкаКлиентСервер.СериализоватьXML(Key);
-//		Иначе
-//			ВызватьИсключение "Некорректное значение параметра ""KeyType"": " + KeyType;
-//		КонецЕсли;
-//	КонецЕсли;
-//	
-//	Если Value <> Неопределено Тогда
-//		Если ValueType = "AvroAsXml" Тогда
-//			ValueString = КафкаКлиентСервер.СериализоватьXML(Value);
-//		Иначе
-//			ВызватьИсключение "Некорректное значение параметра ""ValueType"": " + ValueType;
-//		КонецЕсли;
-//	КонецЕсли;
-//	
-//	HttpОтвет = Produce_(Topic, Partition, ValueString, ValueType, KeyString, KeyType, Headers);
-//	
-//	Возврат ПрочитатьТелоОтвета(HttpОтвет);
-//	
-//КонецФункции
-Функция Produce_(Topic, Partition, ValueString, KeyString, Headers, ValueSchema, KeySchema)
+Функция ProducerGet_(ProducerId)
+	
+	HttpЗапрос = Новый HTTPЗапрос("producer/"+ProducerId);
+	
+	HttpОтвет = Соединение.Получить(HttpЗапрос);
+	
+	Возврат ПроверитьОтвет(HttpОтвет);
+	
+КонецФункции	
+
+Функция ProducerProduce(ProducerId, Token, Topic, Partition=Неопределено, Value, Key=Неопределено, Headers=Неопределено, ValueSchema=Неопределено, KeySchema=Неопределено) Экспорт
+	
+	Если Не ЗначениеЗаполнено(ProducerId) Тогда
+		ВызватьИсключение "Не заполнен Id отправителя. Возможно, экземпляр отправителя уже был удален.";
+	КонецЕсли;
+	
+	HttpОтвет = ProducerProduce_(ProducerId, Token, Topic, Partition, Value, Key, Headers, ValueSchema, KeySchema);
+	
+	Возврат ПрочитатьТелоОтвета(HttpОтвет);
+	
+КонецФункции
+Функция ProducerProduce_(ProducerId, Token, Topic, Partition, ValueString, KeyString, Headers, ValueSchema, KeySchema)
 		
 	Body = Новый Структура;
 	Если Headers <> Неопределено Тогда
@@ -278,7 +377,7 @@
 	КонецЕсли;
 	Body.Вставить("Value", ValueString);
 	
-	HttpЗапрос = Новый HTTPЗапрос("producer/produce?topic="+Topic);
+	HttpЗапрос = Новый HTTPЗапрос("producer/"+ProducerId+"/produce?token="+Token+"&topic="+Topic);
 	
 	Если Partition <> Неопределено Тогда
 		HttpЗапрос.АдресРесурса = HttpЗапрос.АдресРесурса + "&partition="+Формат(Partition, "ЧН=0; ЧГ=0");
@@ -296,38 +395,37 @@
 
 #Область Получение
 
-Функция CreateConsumer(Знач ExpirationTimeout=Неопределено, Config=Неопределено) Экспорт
+Функция ConsumerCreate(Name, Config, Знач ExpirationTimeout=Неопределено) Экспорт
 	
 	Если ExpirationTimeout = Неопределено Тогда
 		ExpirationTimeout = 60000;
 	КонецЕсли;
 	
-	HttpОтвет = CreateConsumer_(ExpirationTimeout, Config);
+	HttpОтвет = ConsumerCreate_(Name, Config, ExpirationTimeout);
 	
 	Consumer = ПрочитатьТелоОтвета(HttpОтвет);
 	
-	Если Consumer = Неопределено Тогда
-		Возврат Неопределено;
-	КонецЕсли;
+	//Если Consumer = Неопределено Тогда
+	//	Возврат Неопределено;
+	//КонецЕсли;
 		
 	Возврат Consumer;
 	
 КонецФункции
-Функция CreateConsumer_(ExpirationTimeout, Config)
+Функция ConsumerCreate_(Name, Config, ExpirationTimeout)
 	
 	Body = Новый Структура;
+	Body.Вставить("Name", Name);
+	Body.Вставить("Config", Config);
 	Body.Вставить("ExpirationTimeoutMs", ExpirationTimeout);
-	Если Config<>Неопределено Тогда
-		Body.Вставить("Config", Config);
-	КонецЕсли;
-	Если ТипКлюча <> "" Тогда
+	Если ЗначениеЗаполнено(ТипКлюча) Тогда
 		Body.Вставить("KeyType", ТипКлюча);
 	КонецЕсли;
-	Если ТипЗначения <> "" Тогда
+	Если ЗначениеЗаполнено(ТипЗначения) Тогда
 		Body.Вставить("ValueType", ТипЗначения);
 	КонецЕсли;
 	
-	HttpЗапрос = Новый HTTPЗапрос("consumers");
+	HttpЗапрос = Новый HTTPЗапрос("consumer");
 		
 	ЗаписатьJSONвHttpЗапрос(HttpЗапрос, Body);
 
@@ -337,10 +435,9 @@
 	
 КонецФункции
 
-Функция ReleaseConsumer(ConsumerId) Экспорт
+Функция ConsumerRelease(ConsumerId, Token) Экспорт
 	
-	// Если уже была попытка удалить получателя, вторую попытку не производим.
-	
+	// Если уже была попытка удалить экземаляр, вторую попытку не производим.
 	Если ConsumerId = Null Тогда
 		Возврат Истина;
 	КонецЕсли;
@@ -350,7 +447,7 @@
 	КодОтвета_ = КодОтвета;
 	ОписаниеОшибки_ = ОписаниеОшибки;
 	
-	HttpОтвет = ReleaseConsumer_(ConsumerId_);
+	HttpОтвет = ConsumerRelease_(ConsumerId_, Token);
 	
 	// ???
 	Если КодОтвета_<200 Или КодОтвета_>299 Тогда
@@ -361,9 +458,9 @@
 	Возврат (HttpОтвет<>Неопределено);
 	
 КонецФункции
-Функция ReleaseConsumer_(ConsumerId)
+Функция ConsumerRelease_(ConsumerId, Token)
 	
-	HttpЗапрос = Новый HTTPЗапрос("consumers/"+ConsumerId);
+	HttpЗапрос = Новый HTTPЗапрос("consumer/"+ConsumerId+"?token="+Token);
 		
 	HttpОтвет = Соединение.Удалить(HttpЗапрос);
 	
@@ -371,41 +468,41 @@
 	
 КонецФункции
 
-Функция GetConsumer(ConsumerId) Экспорт
+Функция ConsumerGet(ConsumerId) Экспорт
 	
 	Если Не ЗначениеЗаполнено(ConsumerId) Тогда
-		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удвлен.";
+		ВызватьИсключение "Не заполнен Id получателя. Возможно, экземпляр получателя уже был удален.";
 	КонецЕсли;
 	
-	HttpОтвет = GetConsumer_(ConsumerId);
+	HttpОтвет = ConsumerGet_(ConsumerId);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет);
 	
 КонецФункции
-Функция GetConsumer_(ConsumerId)
+Функция ConsumerGet_(ConsumerId)
 	
-	HttpЗапрос = Новый HTTPЗапрос("consumers/"+ConsumerId);
-		
-	Ответ = Соединение.Получить(HttpЗапрос);
+	HttpЗапрос = Новый HTTPЗапрос("consumer/"+ConsumerId);
 	
-	Возврат ПроверитьОтвет(Ответ);
+	HttpОтвет = Соединение.Получить(HttpЗапрос);
+	
+	Возврат ПроверитьОтвет(HttpОтвет);
 	
 КонецФункции	
 
-Функция GetConsumerAssignment(ConsumerId) Экспорт
+Функция ConsumerGetAssignment(ConsumerId, Token) Экспорт
 	
 	Если Не ЗначениеЗаполнено(ConsumerId) Тогда
-		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удвлен.";
+		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удален.";
 	КонецЕсли;
 	
-	HttpОтвет = GetConsumerAssignment_(ConsumerId);
+	HttpОтвет = ConsumerGetAssignment_(ConsumerId, Token);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет);
 	
 КонецФункции
-Функция GetConsumerAssignment_(ConsumerId)
+Функция ConsumerGetAssignment_(ConsumerId, Token)
 	
-	HttpЗапрос = Новый HTTPЗапрос("consumers/"+ConsumerId+"/assignment");
+	HttpЗапрос = Новый HTTPЗапрос("consumer/"+ConsumerId+"/assignment?token="+Token);
 		
 	HttpОтвет = Соединение.Получить(HttpЗапрос);
 	
@@ -413,32 +510,28 @@
 	
 КонецФункции	
 
-Функция AssignConsumer(ConsumerId, Partitions) Экспорт
+Функция ConsumerAssign(ConsumerId, Token, Partitions) Экспорт
 	
 	Если Не ЗначениеЗаполнено(ConsumerId) Тогда
-		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удвлен.";
+		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удален.";
 	КонецЕсли;
 	
-	HttpОтвет = AssignConsumer_(ConsumerId, Partitions);
+	HttpОтвет = ConsumerAssign_(ConsumerId, Token, Partitions);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет);
 	
 КонецФункции
-Функция AssignConsumer_(ConsumerId, Partitions)
+Функция ConsumerAssign_(ConsumerId, Token, Partitions)
 	
 	Если ТипЗнч(Partitions) = Тип("Массив") Тогда
-		МассивНазначение = Partitions;
+		Body = Partitions;
 	Иначе
-		МассивНазначение = Новый Массив;
+		Body = Новый Массив;
 		Если Partitions <> Неопределено Тогда
-			МассивНазначение.Добавить(Partitions);
+			Body.Добавить(Partitions);
 		КонецЕсли;
 	КонецЕсли;
-	
-	Body = Новый Структура;
-	Body.Вставить("ConsumerId", ConsumerId);
-	Body.Вставить("Partitions", МассивНазначение);
-	
+		
 	//Body.Вставить("Partitions", Новый Массив);
 	//Для Каждого ТемаРазделСмещение Из МассивНазначение Цикл
 	//	
@@ -475,7 +568,7 @@
 	//	
 	//КонецЦикла;
 		
-	HttpЗапрос = Новый HTTPЗапрос("consumers/"+ConsumerId+"/assignment");
+	HttpЗапрос = Новый HTTPЗапрос("consumer/"+ConsumerId+"/assignment?token="+Token);
 		
 	ЗаписатьJSONвHttpЗапрос(HttpЗапрос, Body);
 
@@ -485,24 +578,24 @@
 	
 КонецФункции
 
-Функция GetPartitionOffsets(ConsumerId, Topic, Partition, Знач Timeout=Неопределено) Экспорт
+Функция ConsumerQueryPartitionOffsets(ConsumerId, Token, Topic, Partition, Знач Timeout=Неопределено) Экспорт
 	
 	Если Не ЗначениеЗаполнено(ConsumerId) Тогда
-		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удвлен.";
+		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удален.";
 	КонецЕсли;
 	
 	Если Timeout = Неопределено Тогда
 		Timeout = 10000;
 	КонецЕсли;
 	
-	HttpОтвет = GetPartitionOffsets_(ConsumerId, Topic, Partition, Timeout);
+	HttpОтвет = ConsumerGetPartitionOffsets_(ConsumerId, Token, Topic, Partition, Timeout);
 		
 	Возврат ПрочитатьТелоОтвета(HttpОтвет);
 	
 КонецФункции
-Функция GetPartitionOffsets_(ConsumerId, Topic, Partition, Timeout)
+Функция ConsumerGetPartitionOffsets_(ConsumerId, Token, Topic, Partition, Timeout)
 	
-	HttpЗапрос = Новый HTTPЗапрос("consumers/"+ConsumerId+"/offsets?topic="+Topic+"&partition="+Формат(Partition, "ЧН=0; ЧГ=0"));
+	HttpЗапрос = Новый HTTPЗапрос("consumer/"+ConsumerId+"/offsets?token="+Token+"&topic="+Topic+"&partition="+Формат(Partition, "ЧН=0; ЧГ=0"));
 	
 	Если Timeout <> Неопределено Тогда
 		HttpЗапрос.АдресРесурса = HttpЗапрос.АдресРесурса + "&timeout="+Формат(Timeout, "ЧН=0; ЧГ=0");
@@ -514,13 +607,13 @@
 	
 КонецФункции	
 
-Функция Consume(ConsumerId, Timeout=Неопределено) Экспорт
+Функция ConsumerConsume(ConsumerId, Token, Timeout=Неопределено) Экспорт
 	
 	Если Не ЗначениеЗаполнено(ConsumerId) Тогда
-		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удвлен.";
+		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удален.";
 	КонецЕсли;
 	
-	HttpОтвет = Consume_(ConsumerId, Timeout);
+	HttpОтвет = ConsumerConsume_(ConsumerId, Token, Timeout);
 	
 	СоответствиеРезультат = ПрочитатьТелоОтвета(HttpОтвет, Истина);
 	
@@ -532,17 +625,17 @@
 	Для Каждого КЗ Из СоответствиеРезультат Цикл
 		Результат.Вставить(КЗ.Ключ, КЗ.Значение);
 	КонецЦикла;
-	
+			
 	Возврат Результат;
 	
 КонецФункции
-Функция Consume_(ConsumerId, Timeout)
+Функция ConsumerConsume_(ConsumerId, Token, Timeout)
 		
-	HttpЗапрос = Новый HTTPЗапрос("consumers/"+ConsumerId+"/consume");
+	HttpЗапрос = Новый HTTPЗапрос("consumer/"+ConsumerId+"/consume?token="+Token);
 	
 	ПараметрыЗапроса = "";
 	Если Timeout <> Неопределено Тогда
-		ПараметрыЗапроса = ПараметрыЗапроса + ?(ПараметрыЗапроса="", "?", "&") + "timeout="+Формат(Timeout, "ЧН=0; ЧГ=0");
+		ПараметрыЗапроса = ПараметрыЗапроса + "&timeout="+Формат(Timeout, "ЧН=0; ЧГ=0");
 	КонецЕсли;
 	
 	HttpЗапрос.АдресРесурса = HttpЗапрос.АдресРесурса + ПараметрыЗапроса;
@@ -553,53 +646,85 @@
 	
 КонецФункции	
 
-Функция ПолучитьСрезПоследнихСообщений(Тема) Экспорт
+Функция ConsumerGetMetadata(ConsumerId, Token, Topic=Неопределено, Знач Timeout=Неопределено) Экспорт
 	
-	TopicMetadata = GetTopicMetadata(Тема);
-	Если TopicMetadata = Неопределено Тогда
-		Возврат Неопределено;
+	Если Не ЗначениеЗаполнено(ConsumerId) Тогда
+		ВызватьИсключение "Не задан Id получателя. Возможно, получатель уже был удален.";
 	КонецЕсли;
-		
-	Если TopicMetadata.Partitions.Количество() = 0 Тогда
-		Возврат Новый Соответствие;
+	
+	Если Timeout = Неопределено Тогда
+		Timeout = 10000;
 	КонецЕсли;
-		
-	Consumer = CreateConsumer();
+	
+	HttpОтвет = ConsumerGetMetadata_(ConsumerId, Token, Topic, Timeout);
+	
+	Возврат ПрочитатьТелоОтвета(HttpОтвет);
+	
+КонецФункции
+Функция ConsumerGetMetadata_(ConsumerId, Token, Topic, Timeout)
+	
+	АдресРесурса = "consumer/"+ConsumerId+"/metadata?token="+Token;
+	Если Topic <> Неопределено Тогда
+		АдресРесурса = АдресРесурса + "&topic="+Topic;
+	КонецЕсли;
+	АдресРесурса = АдресРесурса + "&timeout="+Формат(Timeout, "ЧН=0; ЧГ=0");
+	
+	HttpЗапрос = Новый HTTPЗапрос(АдресРесурса);
+	
+	HttpОтвет = Соединение.Получить(HttpЗапрос);
+	
+	Возврат ПроверитьОтвет(HttpОтвет);
+	
+КонецФункции	
+
+Функция ПолучитьСрезПоследнихСообщений(ИмяОперации, Конфигурация, Тема) Экспорт
+	
+	Consumer = ConsumerCreate(ИмяОперации, Конфигурация);
 	Если Consumer = Неопределено Тогда
 		Возврат Неопределено;
 	КонецЕсли;
-		
+					
 	Попытка
-		
-		Результат = ПолучитьСрезПоследнихСообщений_(TopicMetadata, Consumer);
-		
-		ReleaseConsumer(Consumer.Id);
-		
+		Результат = ПолучитьСрезПоследнихСообщений_(Consumer, Тема);
+		ConsumerRelease(Consumer.Id, Consumer.Token);
 	Исключение
-		ReleaseConsumer(Consumer.Id);
+		ConsumerRelease(Consumer.Id, Consumer.Token);
 		ВызватьИсключение;
 	КонецПопытки;
 			
 	Возврат Результат;
 	
 КонецФункции
-Функция ПолучитьСрезПоследнихСообщений_(TopicMetadata, Consumer)
+Функция ПолучитьСрезПоследнихСообщений_(Consumer, Тема)
+	
+	Md = ConsumerGetMetadata(Consumer.Id, Consumer.Token, Тема);
+	Если Md = Неопределено Тогда
+		Возврат Неопределено;
+	КонецЕсли;
+	
+	TopicMd = Md.Topics[0];
+	
+	Если TopicMd.Partitions.Количество() = 0 Тогда
+		Возврат Новый Соответствие;
+	КонецЕсли;
 	
 	СмещенияТемы = Новый Соответствие;
 	МассивНазначение = Новый Массив;
-	Для Каждого PartitionMetadata Из TopicMetadata.Partitions Цикл
+	Для Каждого PartitionMd Из TopicMd.Partitions Цикл
 		
-		PartitionOffsets = GetPartitionOffsets(Consumer.Id, TopicMetadata.Topic, PartitionMetadata.Partition, 10000);
+		PartitionOffsets = ConsumerQueryPartitionOffsets(Consumer.Id, Consumer.Token, TopicMd.Topic, PartitionMd.Partition);
 		Если PartitionOffsets = Неопределено Тогда
 			Возврат Неопределено;
 		КонецЕсли;
 		
-		СмещенияТемы.Вставить(PartitionMetadata.Partition, PartitionOffsets);
-		МассивНазначение.Добавить(Новый Структура("Topic, Partition, Offset", TopicMetadata.Topic, PartitionMetadata.Partition, PartitionOffsets.Low));
+		Если PartitionOffsets.Low <> PartitionOffsets.High Тогда
+			СмещенияТемы.Вставить(PartitionMd.Partition, PartitionOffsets);
+			МассивНазначение.Добавить(Новый Структура("Topic, Partition, Offset", TopicMd.Topic, PartitionMd.Partition, PartitionOffsets.Low));
+		КонецЕсли;
 		
 	КонецЦикла;
 			
-	МассивНазначение = AssignConsumer(Consumer.Id, МассивНазначение);
+	МассивНазначение = ConsumerAssign(Consumer.Id, Consumer.Token, МассивНазначение);
 	Если МассивНазначение = Неопределено Тогда
 		Возврат Неопределено;
 	КонецЕсли;
@@ -608,7 +733,7 @@
 	
 	Пока Истина Цикл
 		
-		ConsumerMessage = Consume(Consumer.Id, 60000);
+		ConsumerMessage = ConsumerConsume(Consumer.Id, Consumer.Token, 60000);
 		Если ConsumerMessage = Неопределено Тогда
 			Возврат Неопределено;
 		КонецЕсли;
@@ -629,53 +754,46 @@
 		
 	КонецЦикла;
 	
-	Для Каждого PartitionMetadata Из TopicMetadata.Partitions Цикл
-		
-		PartitionOffsets = GetPartitionOffsets(Consumer.Id, TopicMetadata.Topic, PartitionMetadata.Partition, 10000);
-		Если PartitionOffsets = Неопределено Тогда
-			Возврат Неопределено;
-		КонецЕсли;
-		
-	КонецЦикла;
-	
 	Возврат Результат;
 	
 КонецФункции
 
-Функция ПолучитьСмещенияТемы(Тема, Знач Таймаут=Неопределено) Экспорт
+Функция ПолучитьСмещенияТемы(ИмяОперации, Конфигурация, Тема, Знач Таймаут=Неопределено) Экспорт
 	
 	Если Таймаут = Неопределено Тогда
 		Таймаут = 10000;
 	КонецЕсли;
 	
-	TopicMetadata = GetTopicMetadata(Тема);
-	Если TopicMetadata = Неопределено Тогда
-		Возврат Неопределено;
-	КонецЕсли;
-		
-	Consumer = CreateConsumer(60000);
+	Consumer = ConsumerCreate(ИмяОперации, Конфигурация);
 	Если Consumer = Неопределено Тогда
 		Возврат Неопределено;
 	КонецЕсли;
-		
+					
 	Попытка
-		Результат = ПолучитьСмещенияТемы_(TopicMetadata, Consumer, Таймаут);
-		ReleaseConsumer(Consumer.Id);
+		Результат = ПолучитьСмещенияТемы_(Consumer, Тема, Таймаут);
+		ConsumerRelease(Consumer.Id, Consumer.Token);
 	Исключение
-		ReleaseConsumer(Consumer.Id);
+		ConsumerRelease(Consumer.Id, Consumer.Token);
 		ВызватьИсключение;
 	КонецПопытки;
 				
 	Возврат Результат;
 	
 КонецФункции
-Функция ПолучитьСмещенияТемы_(TopicMetadata, Consumer, Таймаут)
+Функция ПолучитьСмещенияТемы_(Consumer, Тема, Таймаут)
 
+	Md = ConsumerGetMetadata(Consumer.Id, Consumer.Token, Тема);
+	Если Md = Неопределено Тогда
+		Возврат Неопределено;
+	КонецЕсли;
+	
+	TopicMd = Md.Topics[0];
+	
 	Результат = Новый Массив;
 	
-	Для Каждого PartitionMetadata Из TopicMetadata.Partitions Цикл
+	Для Каждого PartitionMd Из TopicMd.Partitions Цикл
 		
-		PartitionOffsets = GetPartitionOffsets(Consumer.Id, TopicMetadata.Topic, PartitionMetadata.Partition, Таймаут);
+		PartitionOffsets = ConsumerQueryPartitionOffsets(Consumer.Id, Consumer.Token, TopicMd.Topic, PartitionMd.Partition, Таймаут);
 		Если PartitionOffsets = Неопределено Тогда
 			Возврат Неопределено;
 		КонецЕсли;
@@ -750,7 +868,11 @@
 	Если HttpОтвет = Неопределено Тогда
 		Возврат Неопределено;
 	КонецЕсли;
-		
+	
+	Если HttpОтвет.КодСОстояния = 204 Тогда
+		Возврат NULL;
+	КонецЕсли;
+	
 	ContentLength = HttpОтвет.Заголовки.Получить("Content-Length");
 	Если ContentLength = "0" Тогда
 		Возврат NULL;
@@ -771,6 +893,10 @@
 	ИначеЕсли СтрНачинаетсяС(ContentType, "text/plain") Тогда
 		
 		Результат = HttpОтвет.ПолучитьТелоКакСтроку();
+		
+	ИначеЕсли СтрНачинаетсяС(ContentType, "application/octet-stream") Тогда
+		
+		Результат = HttpОтвет.ПолучитьТелоКакДвоичныеДанные();
 		
 	Иначе
 		

@@ -322,7 +322,7 @@
 											<ExtendedTooltip name="ПриемТаймаутОжиданияРасширеннаяПодсказка" id="122"/>
 										</InputField>
 										<InputField name="ПриемТаймаутПолучателя" id="123">
-											<DataPath>Объект.ПриемТаймаутПолучателя</DataPath>
+											<DataPath>Объект.КлиентТаймаут</DataPath>
 											<ContextMenu name="ПриемТаймаутПолучателяКонтекстноеМеню" id="124"/>
 											<ExtendedTooltip name="ПриемТаймаутПолучателяРасширеннаяПодсказка" id="125"/>
 										</InputField>
@@ -360,73 +360,6 @@
 										</CheckBoxField>
 									</ChildItems>
 								</UsualGroup>
-							</ChildItems>
-						</UsualGroup>
-						<UsualGroup name="ГруппаПриемПараметры" id="128">
-							<Title>
-								<v8:item>
-									<v8:lang>ru</v8:lang>
-									<v8:content>Параметры получателя (продвинутая настройка)</v8:content>
-								</v8:item>
-							</Title>
-							<Group>Vertical</Group>
-							<Behavior>Collapsible</Behavior>
-							<Collapsed>true</Collapsed>
-							<ExtendedTooltip name="ГруппаПриемПараметрыРасширеннаяПодсказка" id="129"/>
-							<ChildItems>
-								<Table name="ПриемПараметры" id="130">
-									<EnableStartDrag>true</EnableStartDrag>
-									<EnableDrag>true</EnableDrag>
-									<DataPath>Объект.ПриемПараметры</DataPath>
-									<RowFilter xsi:nil="true"/>
-									<ContextMenu name="ПриемПараметрыКонтекстноеМеню" id="131"/>
-									<AutoCommandBar name="ПриемПараметрыКоманднаяПанель" id="132"/>
-									<ExtendedTooltip name="ПриемПараметрыРасширеннаяПодсказка" id="133"/>
-									<SearchStringAddition name="ПриемПараметрыСтрокаПоиска" id="134">
-										<AdditionSource>
-											<Item>ПриемПараметры</Item>
-											<Type>SearchStringRepresentation</Type>
-										</AdditionSource>
-										<ContextMenu name="ПриемПараметрыСтрокаПоискаКонтекстноеМеню" id="135"/>
-										<ExtendedTooltip name="ПриемПараметрыСтрокаПоискаРасширеннаяПодсказка" id="136"/>
-									</SearchStringAddition>
-									<ViewStatusAddition name="ПриемПараметрыСостояниеПросмотра" id="137">
-										<AdditionSource>
-											<Item>ПриемПараметры</Item>
-											<Type>ViewStatusRepresentation</Type>
-										</AdditionSource>
-										<ContextMenu name="ПриемПараметрыСостояниеПросмотраКонтекстноеМеню" id="138"/>
-										<ExtendedTooltip name="ПриемПараметрыСостояниеПросмотраРасширеннаяПодсказка" id="139"/>
-									</ViewStatusAddition>
-									<SearchControlAddition name="ПриемПараметрыУправлениеПоиском" id="140">
-										<AdditionSource>
-											<Item>ПриемПараметры</Item>
-											<Type>SearchControl</Type>
-										</AdditionSource>
-										<ContextMenu name="ПриемПараметрыУправлениеПоискомКонтекстноеМеню" id="141"/>
-										<ExtendedTooltip name="ПриемПараметрыУправлениеПоискомРасширеннаяПодсказка" id="142"/>
-									</SearchControlAddition>
-									<ChildItems>
-										<LabelField name="ПриемПараметрыНомерСтроки" id="143">
-											<DataPath>Объект.ПриемПараметры.LineNumber</DataPath>
-											<EditMode>EnterOnInput</EditMode>
-											<ContextMenu name="ПриемПараметрыНомерСтрокиКонтекстноеМеню" id="144"/>
-											<ExtendedTooltip name="ПриемПараметрыНомерСтрокиРасширеннаяПодсказка" id="145"/>
-										</LabelField>
-										<InputField name="ПриемПараметрыПараметр" id="146">
-											<DataPath>Объект.ПриемПараметры.Параметр</DataPath>
-											<EditMode>EnterOnInput</EditMode>
-											<ContextMenu name="ПриемПараметрыПараметрКонтекстноеМеню" id="147"/>
-											<ExtendedTooltip name="ПриемПараметрыПараметрРасширеннаяПодсказка" id="148"/>
-										</InputField>
-										<InputField name="ПриемПараметрыЗначение" id="149">
-											<DataPath>Объект.ПриемПараметры.Значение</DataPath>
-											<EditMode>EnterOnInput</EditMode>
-											<ContextMenu name="ПриемПараметрыЗначениеКонтекстноеМеню" id="150"/>
-											<ExtendedTooltip name="ПриемПараметрыЗначениеРасширеннаяПодсказка" id="151"/>
-										</InputField>
-									</ChildItems>
-								</Table>
 							</ChildItems>
 						</UsualGroup>
 						<UsualGroup name="ГруппаЗагрузкаПозиции" id="152">
@@ -613,6 +546,73 @@
 							<ContextMenu name="ОтправкаБлокироватьТаблицуРегистрацииКонтекстноеМеню" id="70"/>
 							<ExtendedTooltip name="ОтправкаБлокироватьТаблицуРегистрацииРасширеннаяПодсказка" id="114"/>
 						</CheckBoxField>
+					</ChildItems>
+				</UsualGroup>
+				<UsualGroup name="ГруппаПараметры" id="128">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Доп. параметры (продвинутая настройка)</v8:content>
+						</v8:item>
+					</Title>
+					<Group>Vertical</Group>
+					<Behavior>Collapsible</Behavior>
+					<Collapsed>true</Collapsed>
+					<ExtendedTooltip name="ГруппаПараметрыРасширеннаяПодсказка" id="129"/>
+					<ChildItems>
+						<Table name="Параметры" id="130">
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<DataPath>Объект.КафкаКонфигурация</DataPath>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="ПараметрыКонтекстноеМеню" id="131"/>
+							<AutoCommandBar name="ПараметрыКоманднаяПанель" id="132"/>
+							<ExtendedTooltip name="ПараметрыРасширеннаяПодсказка" id="133"/>
+							<SearchStringAddition name="ПараметрыСтрокаПоиска" id="134">
+								<AdditionSource>
+									<Item>Параметры</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="ПараметрыСтрокаПоискаКонтекстноеМеню" id="135"/>
+								<ExtendedTooltip name="ПараметрыСтрокаПоискаРасширеннаяПодсказка" id="136"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="ПараметрыСостояниеПросмотра" id="137">
+								<AdditionSource>
+									<Item>Параметры</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="ПараметрыСостояниеПросмотраКонтекстноеМеню" id="138"/>
+								<ExtendedTooltip name="ПараметрыСостояниеПросмотраРасширеннаяПодсказка" id="139"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="ПараметрыУправлениеПоиском" id="140">
+								<AdditionSource>
+									<Item>Параметры</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="ПараметрыУправлениеПоискомКонтекстноеМеню" id="141"/>
+								<ExtendedTooltip name="ПараметрыУправлениеПоискомРасширеннаяПодсказка" id="142"/>
+							</SearchControlAddition>
+							<ChildItems>
+								<LabelField name="ПриемПараметрыНомерСтроки" id="143">
+									<DataPath>Объект.КафкаКонфигурация.LineNumber</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="ПриемПараметрыНомерСтрокиКонтекстноеМеню" id="144"/>
+									<ExtendedTooltip name="ПриемПараметрыНомерСтрокиРасширеннаяПодсказка" id="145"/>
+								</LabelField>
+								<InputField name="ПриемПараметрыПараметр" id="146">
+									<DataPath>Объект.КафкаКонфигурация.Параметр</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="ПриемПараметрыПараметрКонтекстноеМеню" id="147"/>
+									<ExtendedTooltip name="ПриемПараметрыПараметрРасширеннаяПодсказка" id="148"/>
+								</InputField>
+								<InputField name="ПриемПараметрыЗначение" id="149">
+									<DataPath>Объект.КафкаКонфигурация.Значение</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="ПриемПараметрыЗначениеКонтекстноеМеню" id="150"/>
+									<ExtendedTooltip name="ПриемПараметрыЗначениеРасширеннаяПодсказка" id="151"/>
+								</InputField>
+							</ChildItems>
+						</Table>
 					</ChildItems>
 				</UsualGroup>
 			</ChildItems>
