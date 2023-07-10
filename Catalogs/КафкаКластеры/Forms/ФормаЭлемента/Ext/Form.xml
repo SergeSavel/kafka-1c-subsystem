@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.11">
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.15">
 	<WindowOpeningMode>LockOwnerWindow</WindowOpeningMode>
 	<Customizable>false</Customizable>
 	<UseForFoldersAndItems>Items</UseForFoldersAndItems>
@@ -51,6 +51,7 @@
 					<v8:content>Группа страницы</v8:content>
 				</v8:item>
 			</ToolTip>
+			<PagesRepresentation>TabsOnTop</PagesRepresentation>
 			<ExtendedTooltip name="ГруппаСтраницыРасширеннаяПодсказка" id="31"/>
 			<ChildItems>
 				<Page name="СтраницаПрокси" id="32">
@@ -75,6 +76,7 @@
 									<v8:content>Прокси адрес/таймаут</v8:content>
 								</v8:item>
 							</Title>
+							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаПроксиАдресТаймаутРасширеннаяПодсказка" id="18"/>
@@ -127,6 +129,7 @@
 									<v8:content>Прокси логин/пароль</v8:content>
 								</v8:item>
 							</Title>
+							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаПроксиЛогинПарольРасширеннаяПодсказка" id="23"/>
@@ -280,6 +283,7 @@
 								</v8:item>
 							</ToolTip>
 							<Group>AlwaysHorizontal</Group>
+							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаПользовательПарольРасширеннаяПодсказка" id="43"/>
@@ -299,10 +303,16 @@
 									<Title>
 										<v8:item>
 											<v8:lang>ru</v8:lang>
-											<v8:content>Пользователь уУстановлен</v8:content>
+											<v8:content>Пользователь установлен</v8:content>
 										</v8:item>
 									</Title>
 									<TitleLocation>None</TitleLocation>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Пользователь по умолчанию переопределен</v8:content>
+										</v8:item>
+									</ToolTip>
 									<WarningOnEditRepresentation>Show</WarningOnEditRepresentation>
 									<CheckBoxType>Auto</CheckBoxType>
 									<ContextMenu name="КафкаПользовательУстановленКонтекстноеМеню" id="48"/>
@@ -347,71 +357,312 @@
 								</InputField>
 							</ChildItems>
 						</UsualGroup>
-						<Table name="КафкаОбщиеПараметры" id="59">
-							<TitleLocation>Top</TitleLocation>
-							<HeightInTableRows>3</HeightInTableRows>
-							<EnableStartDrag>true</EnableStartDrag>
-							<EnableDrag>true</EnableDrag>
-							<DataPath>Объект.КафкаКонфигурация</DataPath>
+						<Pages name="КафкаСтраницы" id="105">
 							<Title>
 								<v8:item>
 									<v8:lang>ru</v8:lang>
-									<v8:content>Конфигурация</v8:content>
+									<v8:content>Кафка страницы</v8:content>
 								</v8:item>
 							</Title>
-							<RowFilter xsi:nil="true"/>
-							<ContextMenu name="КафкаОбщиеПараметрыКонтекстноеМеню" id="60"/>
-							<AutoCommandBar name="КафкаОбщиеПараметрыКоманднаяПанель" id="61"/>
-							<ExtendedTooltip name="КафкаОбщиеПараметрыРасширеннаяПодсказка" id="62"/>
-							<SearchStringAddition name="КафкаОбщиеПараметрыСтрокаПоиска" id="63">
-								<AdditionSource>
-									<Item>КафкаОбщиеПараметры</Item>
-									<Type>SearchStringRepresentation</Type>
-								</AdditionSource>
-								<ContextMenu name="КафкаОбщиеПараметрыСтрокаПоискаКонтекстноеМеню" id="64"/>
-								<ExtendedTooltip name="КафкаОбщиеПараметрыСтрокаПоискаРасширеннаяПодсказка" id="65"/>
-							</SearchStringAddition>
-							<ViewStatusAddition name="КафкаОбщиеПараметрыСостояниеПросмотра" id="66">
-								<AdditionSource>
-									<Item>КафкаОбщиеПараметры</Item>
-									<Type>ViewStatusRepresentation</Type>
-								</AdditionSource>
-								<ContextMenu name="КафкаОбщиеПараметрыСостояниеПросмотраКонтекстноеМеню" id="67"/>
-								<ExtendedTooltip name="КафкаОбщиеПараметрыСостояниеПросмотраРасширеннаяПодсказка" id="68"/>
-							</ViewStatusAddition>
-							<SearchControlAddition name="КафкаОбщиеПараметрыУправлениеПоиском" id="69">
-								<AdditionSource>
-									<Item>КафкаОбщиеПараметры</Item>
-									<Type>SearchControl</Type>
-								</AdditionSource>
-								<ContextMenu name="КафкаОбщиеПараметрыУправлениеПоискомКонтекстноеМеню" id="70"/>
-								<ExtendedTooltip name="КафкаОбщиеПараметрыУправлениеПоискомРасширеннаяПодсказка" id="71"/>
-							</SearchControlAddition>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Кафка страницы</v8:content>
+								</v8:item>
+							</ToolTip>
+							<PagesRepresentation>TabsOnTop</PagesRepresentation>
+							<ExtendedTooltip name="КафкаСтраницыРасширеннаяПодсказка" id="106"/>
 							<ChildItems>
-								<LabelField name="КафкаОбщиеПараметрыНомерСтроки" id="72">
-									<DataPath>Объект.КафкаКонфигурация.LineNumber</DataPath>
-									<EditMode>EnterOnInput</EditMode>
-									<ContextMenu name="КафкаОбщиеПараметрыНомерСтрокиКонтекстноеМеню" id="73"/>
-									<ExtendedTooltip name="КафкаОбщиеПараметрыНомерСтрокиРасширеннаяПодсказка" id="74"/>
-								</LabelField>
-								<InputField name="КафкаОбщиеПараметрыПараметр" id="75">
-									<DataPath>Объект.КафкаКонфигурация.Параметр</DataPath>
-									<EditMode>EnterOnInput</EditMode>
-									<ContextMenu name="КафкаОбщиеПараметрыПараметрКонтекстноеМеню" id="76"/>
-									<ExtendedTooltip name="КафкаОбщиеПараметрыПараметрРасширеннаяПодсказка" id="77"/>
-								</InputField>
-								<InputField name="КафкаОбщиеПараметрыЗначение" id="78">
-									<DataPath>Объект.КафкаКонфигурация.Значение</DataPath>
-									<EditMode>EnterOnInput</EditMode>
-									<ContextMenu name="КафкаОбщиеПараметрыЗначениеКонтекстноеМеню" id="79"/>
-									<ExtendedTooltip name="КафкаОбщиеПараметрыЗначениеРасширеннаяПодсказка" id="80"/>
-								</InputField>
+								<Page name="КафкаСтраницаКонфигурацияОтправителя" id="107">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Конфигурация отправителя</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Конфигурация отправителя</v8:content>
+										</v8:item>
+									</ToolTip>
+									<ExtendedTooltip name="КафкаСтраницаКонфигурацияОтправителяРасширеннаяПодсказка" id="108"/>
+									<ChildItems>
+										<Table name="КафкаКонфигурацияОтправителя" id="59">
+											<HeightInTableRows>3</HeightInTableRows>
+											<EnableStartDrag>true</EnableStartDrag>
+											<EnableDrag>true</EnableDrag>
+											<DataPath>Объект.КафкаКонфигурацияОтправителя</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Конфигурация отправителя</v8:content>
+												</v8:item>
+											</Title>
+											<RowFilter xsi:nil="true"/>
+											<ContextMenu name="КафкаКонфигурацияОтправителяКонтекстноеМеню" id="60"/>
+											<AutoCommandBar name="КафкаКонфигурацияОтправителяКоманднаяПанель" id="61"/>
+											<ExtendedTooltip name="КафкаКонфигурацияОтправителяРасширеннаяПодсказка" id="62"/>
+											<SearchStringAddition name="КафкаКонфигурацияОтправителяСтрокаПоиска" id="63">
+												<AdditionSource>
+													<Item>КафкаКонфигурацияОтправителя</Item>
+													<Type>SearchStringRepresentation</Type>
+												</AdditionSource>
+												<ContextMenu name="КафкаКонфигурацияОтправителяСтрокаПоискаКонтекстноеМеню" id="64"/>
+												<ExtendedTooltip name="КафкаКонфигурацияОтправителяСтрокаПоискаРасширеннаяПодсказка" id="65"/>
+											</SearchStringAddition>
+											<ViewStatusAddition name="КафкаКонфигурацияОтправителяСостояниеПросмотра" id="66">
+												<AdditionSource>
+													<Item>КафкаКонфигурацияОтправителя</Item>
+													<Type>ViewStatusRepresentation</Type>
+												</AdditionSource>
+												<ContextMenu name="КафкаКонфигурацияОтправителяСостояниеПросмотраКонтекстноеМеню" id="67"/>
+												<ExtendedTooltip name="КафкаКонфигурацияОтправителяСостояниеПросмотраРасширеннаяПодсказка" id="68"/>
+											</ViewStatusAddition>
+											<SearchControlAddition name="КафкаКонфигурацияОтправителяУправлениеПоиском" id="69">
+												<AdditionSource>
+													<Item>КафкаКонфигурацияОтправителя</Item>
+													<Type>SearchControl</Type>
+												</AdditionSource>
+												<ContextMenu name="КафкаКонфигурацияОтправителяУправлениеПоискомКонтекстноеМеню" id="70"/>
+												<ExtendedTooltip name="КафкаКонфигурацияОтправителяУправлениеПоискомРасширеннаяПодсказка" id="71"/>
+											</SearchControlAddition>
+											<ChildItems>
+												<LabelField name="КафкаКонфигурацияОтправителяНомерСтроки" id="72">
+													<DataPath>Объект.КафкаКонфигурацияОтправителя.LineNumber</DataPath>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="КафкаКонфигурацияОтправителяНомерСтрокиКонтекстноеМеню" id="73"/>
+													<ExtendedTooltip name="КафкаКонфигурацияОтправителяНомерСтрокиРасширеннаяПодсказка" id="74"/>
+												</LabelField>
+												<InputField name="КафкаКонфигурацияОтправителяПараметр" id="75">
+													<DataPath>Объект.КафкаКонфигурацияОтправителя.Параметр</DataPath>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="КафкаКонфигурацияОтправителяПараметрКонтекстноеМеню" id="76"/>
+													<ExtendedTooltip name="КафкаКонфигурацияОтправителяПараметрРасширеннаяПодсказка" id="77"/>
+												</InputField>
+												<InputField name="КафкаКонфигурацияОтправителяЗначение" id="78">
+													<DataPath>Объект.КафкаКонфигурацияОтправителя.Значение</DataPath>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="КафкаКонфигурацияОтправителяЗначениеКонтекстноеМеню" id="79"/>
+													<ExtendedTooltip name="КафкаКонфигурацияОтправителяЗначениеРасширеннаяПодсказка" id="80"/>
+												</InputField>
+											</ChildItems>
+										</Table>
+									</ChildItems>
+								</Page>
+								<Page name="КафкаСтраницаКонфигурацияПолучателя" id="109">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Конфигурация получателя</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Конфигурация получателя</v8:content>
+										</v8:item>
+									</ToolTip>
+									<ExtendedTooltip name="КафкаСтраницаКонфигурацияПолучателяРасширеннаяПодсказка" id="110"/>
+									<ChildItems>
+										<Table name="КафкаКонфигурацияПолучателя" id="111">
+											<EnableStartDrag>true</EnableStartDrag>
+											<EnableDrag>true</EnableDrag>
+											<DataPath>Объект.КафкаКонфигурацияПолучателя</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Конфигурация получателя</v8:content>
+												</v8:item>
+											</Title>
+											<RowFilter xsi:nil="true"/>
+											<ContextMenu name="КафкаКонфигурацияПолучателяКонтекстноеМеню" id="112"/>
+											<AutoCommandBar name="КафкаКонфигурацияПолучателяКоманднаяПанель" id="113"/>
+											<ExtendedTooltip name="КафкаКонфигурацияПолучателяРасширеннаяПодсказка" id="114"/>
+											<SearchStringAddition name="КафкаКонфигурацияПолучателяСтрокаПоиска" id="115">
+												<AdditionSource>
+													<Item>КафкаКонфигурацияПолучателя</Item>
+													<Type>SearchStringRepresentation</Type>
+												</AdditionSource>
+												<ContextMenu name="КафкаКонфигурацияПолучателяСтрокаПоискаКонтекстноеМеню" id="116"/>
+												<ExtendedTooltip name="КафкаКонфигурацияПолучателяСтрокаПоискаРасширеннаяПодсказка" id="117"/>
+											</SearchStringAddition>
+											<ViewStatusAddition name="КафкаКонфигурацияПолучателяСостояниеПросмотра" id="118">
+												<AdditionSource>
+													<Item>КафкаКонфигурацияПолучателя</Item>
+													<Type>ViewStatusRepresentation</Type>
+												</AdditionSource>
+												<ContextMenu name="КафкаКонфигурацияПолучателяСостояниеПросмотраКонтекстноеМеню" id="119"/>
+												<ExtendedTooltip name="КафкаКонфигурацияПолучателяСостояниеПросмотраРасширеннаяПодсказка" id="120"/>
+											</ViewStatusAddition>
+											<SearchControlAddition name="КафкаКонфигурацияПолучателяУправлениеПоиском" id="121">
+												<AdditionSource>
+													<Item>КафкаКонфигурацияПолучателя</Item>
+													<Type>SearchControl</Type>
+												</AdditionSource>
+												<ContextMenu name="КафкаКонфигурацияПолучателяУправлениеПоискомКонтекстноеМеню" id="122"/>
+												<ExtendedTooltip name="КафкаКонфигурацияПолучателяУправлениеПоискомРасширеннаяПодсказка" id="123"/>
+											</SearchControlAddition>
+											<ChildItems>
+												<LabelField name="КафкаКонфигурацияПолучателяНомерСтроки" id="124">
+													<DataPath>Объект.КафкаКонфигурацияПолучателя.LineNumber</DataPath>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="КафкаКонфигурацияПолучателяНомерСтрокиКонтекстноеМеню" id="125"/>
+													<ExtendedTooltip name="КафкаКонфигурацияПолучателяНомерСтрокиРасширеннаяПодсказка" id="126"/>
+												</LabelField>
+												<InputField name="КафкаКонфигурацияПолучателяПараметр" id="127">
+													<DataPath>Объект.КафкаКонфигурацияПолучателя.Параметр</DataPath>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="КафкаКонфигурацияПолучателяПараметрКонтекстноеМеню" id="128"/>
+													<ExtendedTooltip name="КафкаКонфигурацияПолучателяПараметрРасширеннаяПодсказка" id="129"/>
+												</InputField>
+												<InputField name="КафкаКонфигурацияПолучателяЗначение" id="130">
+													<DataPath>Объект.КафкаКонфигурацияПолучателя.Значение</DataPath>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="КафкаКонфигурацияПолучателяЗначениеКонтекстноеМеню" id="131"/>
+													<ExtendedTooltip name="КафкаКонфигурацияПолучателяЗначениеРасширеннаяПодсказка" id="132"/>
+												</InputField>
+											</ChildItems>
+										</Table>
+									</ChildItems>
+								</Page>
 							</ChildItems>
-						</Table>
+						</Pages>
+					</ChildItems>
+				</Page>
+				<Page name="СтраницаМониторинг" id="81">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Мониторинг</v8:content>
+						</v8:item>
+					</Title>
+					<ExtendedTooltip name="СтраницаМониторингРасширеннаяПодсказка" id="82"/>
+					<ChildItems>
+						<CheckBoxField name="МониторингВключен" id="83">
+							<DataPath>Объект.МониторингВключен</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Включен</v8:content>
+								</v8:item>
+							</Title>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="МониторингВключенКонтекстноеМеню" id="84"/>
+							<ExtendedTooltip name="МониторингВключенРасширеннаяПодсказка" id="85"/>
+						</CheckBoxField>
+						<InputField name="МониторингПользовательРЗ" id="89">
+							<DataPath>Объект.МониторингПользовательРЗ</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Пользователь РЗ</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Пользователь регламентного задания</v8:content>
+								</v8:item>
+							</ToolTip>
+							<ContextMenu name="МониторингПользовательРЗКонтекстноеМеню" id="90"/>
+							<ExtendedTooltip name="МониторингПользовательРЗРасширеннаяПодсказка" id="91"/>
+						</InputField>
+						<InputField name="МониторингТема" id="86">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Тема</v8:content>
+								</v8:item>
+							</Title>
+							<AutoMaxWidth>false</AutoMaxWidth>
+							<ContextMenu name="МониторингТемаКонтекстноеМеню" id="87"/>
+							<ExtendedTooltip name="МониторингТемаРасширеннаяПодсказка" id="88"/>
+						</InputField>
+						<UsualGroup name="ГруппаМониторингZabbix" id="92">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Zabbix</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа мониторинг zabbix</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>Vertical</Group>
+							<Behavior>Usual</Behavior>
+							<Representation>StrongSeparation</Representation>
+							<ExtendedTooltip name="ГруппаМониторингZabbixРасширеннаяПодсказка" id="93"/>
+							<ChildItems>
+								<InputField name="МониторингZabbixКомандаZabbixSender" id="94">
+									<DataPath>Объект.МониторингZabbixКомандаZabbixSender</DataPath>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Команда Zabbix Sender</v8:content>
+										</v8:item>
+									</Title>
+									<AutoMaxWidth>false</AutoMaxWidth>
+									<ContextMenu name="МониторингZabbixКомандаZabbixSenderКонтекстноеМеню" id="95"/>
+									<ExtendedTooltip name="МониторингZabbixКомандаZabbixSenderРасширеннаяПодсказка" id="96"/>
+								</InputField>
+								<UsualGroup name="ГруппаМониторингZabbixКлючиМетаданных" id="97">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Ключи метаданных</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Группа мониторинг zabbix ключи метаданных</v8:content>
+										</v8:item>
+									</ToolTip>
+									<Behavior>Usual</Behavior>
+									<ExtendedTooltip name="ГруппаМониторингZabbixКлючиМетаданныхРасширеннаяПодсказка" id="98"/>
+									<ChildItems>
+										<InputField name="МониторингZabbixКлючМетаданныеОчередьВыгрузки" id="99">
+											<DataPath>Объект.МониторингZabbixКлючМетаданныеОчередьВыгрузки</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Длина очереди выгрузки</v8:content>
+												</v8:item>
+											</Title>
+											<AutoMaxWidth>false</AutoMaxWidth>
+											<ContextMenu name="МониторингZabbixКлючМетаданныеОчередьВыгрузкиКонтекстноеМеню" id="100"/>
+											<ExtendedTooltip name="МониторингZabbixКлючМетаданныеОчередьВыгрузкиРасширеннаяПодсказка" id="101"/>
+										</InputField>
+										<InputField name="МониторингZabbixКлючМетаданныеОчередьЗагрузки" id="102">
+											<DataPath>Объект.МониторингZabbixКлючМетаданныеОчередьЗагрузки</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Длина очереди загрузки</v8:content>
+												</v8:item>
+											</Title>
+											<AutoMaxWidth>false</AutoMaxWidth>
+											<ContextMenu name="МониторингZabbixКлючМетаданныеОчередьЗагрузкиКонтекстноеМеню" id="103"/>
+											<ExtendedTooltip name="МониторингZabbixКлючМетаданныеОчередьЗагрузкиРасширеннаяПодсказка" id="104"/>
+										</InputField>
+									</ChildItems>
+								</UsualGroup>
+							</ChildItems>
+						</UsualGroup>
 					</ChildItems>
 				</Page>
 			</ChildItems>
 		</Pages>
+		<InputField name="Комментарий" id="133">
+			<DataPath>Объект.Комментарий</DataPath>
+			<AutoMaxWidth>false</AutoMaxWidth>
+			<ContextMenu name="КомментарийКонтекстноеМеню" id="134"/>
+			<ExtendedTooltip name="КомментарийРасширеннаяПодсказка" id="135"/>
+		</InputField>
 	</ChildItems>
 	<Attributes>
 		<Attribute name="Объект" id="1">
