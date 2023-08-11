@@ -80,36 +80,23 @@
 			<ChildItems>
 				<InputField name="Кластер" id="117">
 					<DataPath>Объект.Кластер</DataPath>
+					<WarningOnEditRepresentation>Show</WarningOnEditRepresentation>
 					<ContextMenu name="КластерКонтекстноеМеню" id="118"/>
 					<ExtendedTooltip name="КластерРасширеннаяПодсказка" id="119"/>
 				</InputField>
-				<InputField name="Вид" id="45">
-					<DataPath>Объект.Вид</DataPath>
+				<InputField name="ОбменНаправление" id="249">
+					<DataPath>Объект.ОбменНаправление</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Направление</v8:content>
+						</v8:item>
+					</Title>
 					<WarningOnEditRepresentation>Show</WarningOnEditRepresentation>
-					<ListChoiceMode>true</ListChoiceMode>
-					<TextEdit>false</TextEdit>
-					<ChoiceList>
-						<xr:Item>
-							<xr:Presentation/>
-							<xr:CheckState>0</xr:CheckState>
-							<xr:Value xsi:type="FormChoiceListDesTimeValue">
-								<Presentation/>
-								<Value xsi:type="xs:string">Источник</Value>
-							</xr:Value>
-						</xr:Item>
-						<xr:Item>
-							<xr:Presentation/>
-							<xr:CheckState>0</xr:CheckState>
-							<xr:Value xsi:type="FormChoiceListDesTimeValue">
-								<Presentation/>
-								<Value xsi:type="xs:string">Приемник</Value>
-							</xr:Value>
-						</xr:Item>
-					</ChoiceList>
-					<ContextMenu name="ВидКонтекстноеМеню" id="46"/>
-					<ExtendedTooltip name="ВидРасширеннаяПодсказка" id="90"/>
+					<ContextMenu name="ОбменНаправлениеКонтекстноеМеню" id="250"/>
+					<ExtendedTooltip name="ОбменНаправлениеРасширеннаяПодсказка" id="251"/>
 					<Events>
-						<Event name="OnChange">ВидПриИзменении</Event>
+						<Event name="OnChange">ОбменНаправлениеПриИзменении</Event>
 					</Events>
 				</InputField>
 			</ChildItems>
@@ -139,6 +126,194 @@
 					</Title>
 					<ExtendedTooltip name="СтраницаОбщиеПараметрыРасширеннаяПодсказка" id="179"/>
 					<ChildItems>
+						<UsualGroup name="ГруппаТипКлючаЗначения" id="252">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Тип ключа/значения</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа тип ключа значения</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Behavior>Usual</Behavior>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаТипКлючаЗначенияРасширеннаяПодсказка" id="253"/>
+							<ChildItems>
+								<InputField name="ТипКлюча" id="254">
+									<DataPath>Объект.КлючСердес</DataPath>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Ключ</v8:content>
+										</v8:item>
+									</Title>
+									<WarningOnEditRepresentation>Show</WarningOnEditRepresentation>
+									<ListChoiceMode>true</ListChoiceMode>
+									<TextEdit>false</TextEdit>
+									<ChoiceList>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Null</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.ДвоичныеДанные</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Строка</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.СтрокаAvro</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.СтруктураAvro</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.СтруктураJson</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.СоответствиеJson</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Xml</Value>
+											</xr:Value>
+										</xr:Item>
+									</ChoiceList>
+									<ContextMenu name="ТипКлючаКонтекстноеМеню" id="255"/>
+									<ExtendedTooltip name="ТипКлючаРасширеннаяПодсказка" id="256"/>
+								</InputField>
+								<InputField name="ТипЗначения" id="257">
+									<DataPath>Объект.ЗначениеСердес</DataPath>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Значение</v8:content>
+										</v8:item>
+									</Title>
+									<WarningOnEditRepresentation>Show</WarningOnEditRepresentation>
+									<ListChoiceMode>true</ListChoiceMode>
+									<TextEdit>false</TextEdit>
+									<ChoiceList>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Игнорировать</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Null</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.ДвоичныеДанные</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Строка</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.СтрокаAvro</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.СтруктураAvro</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.СтруктураJson</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.СоответствиеJson</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Xml</Value>
+											</xr:Value>
+										</xr:Item>
+									</ChoiceList>
+									<ContextMenu name="ТипЗначенияКонтекстноеМеню" id="258"/>
+									<ExtendedTooltip name="ТипЗначенияРасширеннаяПодсказка" id="259"/>
+								</InputField>
+							</ChildItems>
+						</UsualGroup>
 						<InputField name="Обработка" id="11">
 							<DataPath>Объект.Обработка</DataPath>
 							<WarningOnEditRepresentation>Show</WarningOnEditRepresentation>
@@ -402,13 +577,6 @@
 								</LabelDecoration>
 							</ChildItems>
 						</UsualGroup>
-						<CheckBoxField name="МониторингВключен" id="189">
-							<DataPath>Объект.МониторингВключен</DataPath>
-							<TitleLocation>Right</TitleLocation>
-							<CheckBoxType>Auto</CheckBoxType>
-							<ContextMenu name="МониторингВключенКонтекстноеМеню" id="190"/>
-							<ExtendedTooltip name="МониторингВключенРасширеннаяПодсказка" id="191"/>
-						</CheckBoxField>
 					</ChildItems>
 				</Page>
 				<Page name="СтраницаОтправка" id="174">
@@ -443,6 +611,13 @@
 					</Title>
 					<ExtendedTooltip name="СтраницаПриемРасширеннаяПодсказка" id="177"/>
 					<ChildItems>
+						<InputField name="ПриемПроцедура" id="260">
+							<DataPath>Объект.ПриемПроцедура</DataPath>
+							<AutoMaxWidth>false</AutoMaxWidth>
+							<AutoMarkIncomplete>true</AutoMarkIncomplete>
+							<ContextMenu name="ПриемПроцедураКонтекстноеМеню" id="261"/>
+							<ExtendedTooltip name="ПриемПроцедураРасширеннаяПодсказка" id="262"/>
+						</InputField>
 						<UsualGroup name="ГруппаПрием" id="79">
 							<Title>
 								<v8:item>

@@ -1,7 +1,7 @@
 ﻿///////////////////////////////////////////////////////////////////////////////
 // Низкоуровневый API интеграции Apache Kafka и 1C:Предприятие через
 // REST-прокси.
-// Версия 3.
+// Версия 4.
 // Автор: Сергей Савельев.
 // Исходники REST-прокси: https://github.com/SergeSavel/kafka-rest-proxy-dotnet
 ///////////////////////////////////////////////////////////////////////////////
@@ -563,28 +563,26 @@
 
 #Область Отправка
 
-Функция ProducerCreate(Name, Config, Знач ExpirationTimeout=Неопределено) Экспорт
+Функция ProducerCreate(Name, Config, KeyType, ValueType, Знач ExpirationTimeout=Неопределено) Экспорт
 	
 	Если ExpirationTimeout = Неопределено Тогда
 		ExpirationTimeout = 60000;
 	КонецЕсли;
 	
-	HttpОтвет = ProducerCreate_(Name, Config, ExpirationTimeout);
+	HttpОтвет = ProducerCreate_(Name, Config, KeyType, ValueType, ExpirationTimeout);
 	
 	Producer = ПрочитатьТелоОтвета(HttpОтвет);
 	
-	//Если Producer = Неопределено Тогда
-	//	Возврат Неопределено;
-	//КонецЕсли;
-		
 	Возврат Producer;
 	
 КонецФункции
-Функция ProducerCreate_(Name, Config, ExpirationTimeout)
+Функция ProducerCreate_(Name, Config, KeyType, ValueType, ExpirationTimeout)
 	
 	Body = Новый Структура;
 	Body.Вставить("Name", Name);
 	Body.Вставить("Config", Config);
+	Body.Вставить("KeyType", KeyType);
+	Body.Вставить("ValueType", ValueType);
 	Body.Вставить("ExpirationTimeoutMs", ExpirationTimeout);
 	
 	HttpЗапрос = Новый HTTPЗапрос("producer");
@@ -617,7 +615,7 @@
 		ОписаниеОшибки = ОписаниеОшибки_;
 	КонецЕсли;
 	
-	Возврат (HttpОтвет<>Неопределено);
+	Возврат (HttpОтвет <> Неопределено);
 	
 КонецФункции
 Функция ProducerRelease_(ProducerId, Token)
@@ -651,37 +649,50 @@
 	
 КонецФункции	
 
-Функция ProducerProduce(ProducerId, Token, Topic, Partition=Неопределено, Value, Key=Неопределено, Headers=Неопределено, ValueSchema=Неопределено, KeySchema=Неопределено) Экспорт
+Функция ProducerSetSchema(ProducerId, Token, SchemaString) Экспорт
 	
 	Если Не ЗначениеЗаполнено(ProducerId) Тогда
 		ВызватьИсключение "Не заполнен Id отправителя. Возможно, экземпляр отправителя уже был удален.";
 	КонецЕсли;
 	
-	HttpОтвет = ProducerProduce_(ProducerId, Token, Topic, Partition, Value, Key, Headers, ValueSchema, KeySchema);
+	HttpОтвет = ProducerSetSchema_(ProducerId, Token, SchemaString);
+	
+	Возврат (HttpОтвет <> Неопределено);
+	
+КонецФункции
+Функция ProducerSetSchema_(ProducerId, Token, SchemaString)
+		
+	HttpЗапрос = Новый HTTPЗапрос("producer/"+ProducerId+"/schemas?token="+Token);
+	
+	HttpЗапрос.Заголовки.Вставить("Content-Type", "text/plain; charset=utf-8");
+	
+	HttpЗапрос.УстановитьТелоИзСтроки(SchemaString);
+	
+	HttpОтвет = Соединение.Записать(HttpЗапрос);
+	
+	Возврат ПроверитьОтвет(HttpОтвет);
+	
+КонецФункции
+
+Функция ProducerProduce(ProducerId, Token, Topic, Partition=Неопределено, Key=Неопределено, Value, Headers=Неопределено) Экспорт
+	
+	Если Не ЗначениеЗаполнено(ProducerId) Тогда
+		ВызватьИсключение "Не заполнен Id отправителя. Возможно, экземпляр отправителя уже был удален.";
+	КонецЕсли;
+	
+	HttpОтвет = ProducerProduce_(ProducerId, Token, Topic, Partition, Key, Value, Headers);
 	
 	Возврат ПрочитатьТелоОтвета(HttpОтвет);
 	
 КонецФункции
-Функция ProducerProduce_(ProducerId, Token, Topic, Partition, ValueString, KeyString, Headers, ValueSchema, KeySchema)
+Функция ProducerProduce_(ProducerId, Token, Topic, Partition, KeyString, ValueString, Headers)
 		
 	Body = Новый Структура;
 	Если Headers <> Неопределено Тогда
 		Body.Вставить("Headers", Headers);
 	КонецЕсли;
-	Если ТипКлюча <> "" Тогда
-		Body.Вставить("KeyType", ТипКлюча);
-	КонецЕсли;
-	Если KeySchema <> Неопределено Тогда
-		Body.Вставить("KeySchema", KeySchema);
-	КонецЕсли;
 	Если KeyString <> Неопределено Тогда
 		Body.Вставить("Key", KeyString);
-	КонецЕсли;
-	Если ТипЗначения <> "" Тогда
-		Body.Вставить("ValueType", ТипЗначения);
-	КонецЕсли;
-	Если ValueSchema <> Неопределено Тогда
-		Body.Вставить("ValueSchema", ValueSchema);
 	КонецЕсли;
 	Body.Вставить("Value", ValueString);
 	
@@ -700,9 +711,9 @@
 КонецФункции
 
 // Высокоуровневая процедура для отправки одного единственного сообщения.
-Функция ОтправитьСообщение(ИмяОперации, Конфигурация, Тема, Раздел=Неопределено, Значение=Неопределено, Ключ=Неопределено, Заголовки=Неопределено, СхемаЗначения=Неопределено, СхемаКлюча=Неопределено) Экспорт
+Функция ОтправитьСообщение(ИмяОперации, Конфигурация, Тема, Раздел=Неопределено, Ключ=Неопределено, Значение, Заголовки=Неопределено, ТипКлюча="String", ТипЗначения="String", СхемаКлюча=Неопределено, СхемаЗначения=Неопределено) Экспорт
 	
-	Producer = ProducerCreate(ИмяОперации, Конфигурация);
+	Producer = ProducerCreate(ИмяОперации, Конфигурация, ТипКлюча, ТипЗначения);
 	
 	Если Producer = Неопределено Тогда
 		Возврат Неопределено;
@@ -710,8 +721,16 @@
 	
 	// Конструкция, гарантирующая удаление экземпляра отправителя независимо от того, чем завершится отправка.
 	Попытка
-	
-		DeliveryResult = ProducerProduce(Producer.Id, Producer.Token, Тема, Раздел, Значение, Ключ, Заголовки, СхемаЗначения, СхемаКлюча);
+		
+		Если СхемаКлюча <> Неопределено И СтрНайти(Врег(ТипКлюча), "AVRO") > 0 Тогда
+			ProducerSetSchema(Producer.Id, Producer.Token, СхемаКлюча);
+		КонецЕсли;
+		
+		Если СхемаЗначения <> Неопределено И СтрНайти(Врег(ТипЗначения), "AVRO") > 0 Тогда
+			ProducerSetSchema(Producer.Id, Producer.Token, СхемаЗначения);
+		КонецЕсли;
+		
+		DeliveryResult = ProducerProduce(Producer.Id, Producer.Token, Тема, Раздел, Ключ, Значение, Заголовки);
 				
 		ProducerRelease(Producer.Id, Producer.Token);
 		
@@ -731,35 +750,27 @@
 
 #Область Получение
 
-Функция ConsumerCreate(Name, Config, Знач ExpirationTimeout=Неопределено) Экспорт
+Функция ConsumerCreate(Name, Config, KeyType, ValueType, Знач ExpirationTimeout=Неопределено) Экспорт
 	
 	Если ExpirationTimeout = Неопределено Тогда
 		ExpirationTimeout = 60000;
 	КонецЕсли;
 	
-	HttpОтвет = ConsumerCreate_(Name, Config, ExpirationTimeout);
+	HttpОтвет = ConsumerCreate_(Name, Config, KeyType, ValueType, ExpirationTimeout);
 	
 	Consumer = ПрочитатьТелоОтвета(HttpОтвет);
 	
-	//Если Consumer = Неопределено Тогда
-	//	Возврат Неопределено;
-	//КонецЕсли;
-		
 	Возврат Consumer;
 	
 КонецФункции
-Функция ConsumerCreate_(Name, Config, ExpirationTimeout)
+Функция ConsumerCreate_(Name, Config, KeyType, ValueType, ExpirationTimeout)
 	
 	Body = Новый Структура;
 	Body.Вставить("Name", Name);
 	Body.Вставить("Config", Config);
+	Body.Вставить("KeyType", KeyType);
+	Body.Вставить("ValueType", ValueType);
 	Body.Вставить("ExpirationTimeoutMs", ExpirationTimeout);
-	Если ЗначениеЗаполнено(ТипКлюча) Тогда
-		Body.Вставить("KeyType", ТипКлюча);
-	КонецЕсли;
-	Если ЗначениеЗаполнено(ТипЗначения) Тогда
-		Body.Вставить("ValueType", ТипЗначения);
-	КонецЕсли;
 	
 	HttpЗапрос = Новый HTTPЗапрос("consumer");
 		
@@ -953,7 +964,7 @@
 	
 	СоответствиеРезультат = ПрочитатьТелоОтвета(HttpОтвет, Истина);
 	
-	Если СоответствиеРезультат=Неопределено Или СоответствиеРезультат=Null Тогда
+	Если СоответствиеРезультат = Неопределено Или СоответствиеРезультат = Null Тогда
 		Возврат СоответствиеРезультат;
 	КонецЕсли;
 	
@@ -976,7 +987,7 @@
 	
 	HttpЗапрос.АдресРесурса = HttpЗапрос.АдресРесурса + ПараметрыЗапроса;
 		
-	HttpОтвет = Соединение.Получить(HttpЗапрос);
+	HttpОтвет = Соединение.ОтправитьДляОбработки(HttpЗапрос);
 	
 	Возврат ПроверитьОтвет(HttpОтвет);
 	
@@ -1014,7 +1025,7 @@
 КонецФункции	
 
 // Высокоуровневая процедура получения среза последних сообщений (для тем с обрезкой "compact").
-Функция ПолучитьСрезПоследнихСообщений(ИмяОперации, Конфигурация, Тема, Раздел=Неопределено) Экспорт
+Функция ПолучитьСрезПоследнихСообщений(ИмяОперации, Конфигурация, Тема, Раздел=Неопределено, ТипКлюча, ТипЗначения) Экспорт
 	
 	Конфигурация2 = Новый Соответствие;
 	Для Каждого КЗ Из Конфигурация Цикл
@@ -1022,7 +1033,7 @@
 	КонецЦикла;
 	Конфигурация2.Вставить("enable.partition.eof", XMLСтрока(Истина));
 	
-	Consumer = ConsumerCreate(ИмяОперации, Конфигурация2);
+	Consumer = ConsumerCreate(ИмяОперации, Конфигурация2, ТипКлюча, ТипЗначения);
 	Если Consumer = Неопределено Тогда
 		Возврат Неопределено;
 	КонецЕсли;
@@ -1124,7 +1135,7 @@
 		Таймаут = 10000;
 	КонецЕсли;
 	
-	Consumer = ConsumerCreate(ИмяОперации, Конфигурация);
+	Consumer = ConsumerCreate(ИмяОперации, Конфигурация, "Ignore", "Ignore");
 	Если Consumer = Неопределено Тогда
 		Возврат Неопределено;
 	КонецЕсли;
@@ -1204,7 +1215,7 @@
 // Высокоуровневая процедура получения метаданных темы.
 Функция ПолучитьМетаданныеТемы(ИмяОперации, Конфигурация, Тема) Экспорт
 	
-	Consumer = ConsumerCreate(ИмяОперации, Конфигурация);
+	Consumer = ConsumerCreate(ИмяОперации, Конфигурация, "Ignore", "Ignore");
 	Если Consumer = Неопределено Тогда
 		Возврат Неопределено;
 	КонецЕсли;

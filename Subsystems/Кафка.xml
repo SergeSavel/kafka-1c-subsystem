@@ -31,7 +31,9 @@
 				<xr:Item xsi:type="xr:MDObjectRef">Role.КафкаАдминистрирование</xr:Item>
 				<xr:Item xsi:type="xr:MDObjectRef">CommonModule.КафкаПереопределяемый</xr:Item>
 				<xr:Item xsi:type="xr:MDObjectRef">CommonPicture.Кафка</xr:Item>
-				<xr:Item xsi:type="xr:MDObjectRef">ScheduledJob.КафкаМониторинг</xr:Item>
+				<xr:Item xsi:type="xr:MDObjectRef">6ab40021-c57b-4608-b6f0-c2f0fef7a145</xr:Item>
+				<xr:Item xsi:type="xr:MDObjectRef">Enum.КафкаНаправленияОбмена</xr:Item>
+				<xr:Item xsi:type="xr:MDObjectRef">Enum.КафкаСердес</xr:Item>
 			</Content>
 		</Properties>
 		<ChildObjects/>
