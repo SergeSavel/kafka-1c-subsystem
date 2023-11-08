@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.15">
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.8">
 	<WindowOpeningMode>LockOwnerWindow</WindowOpeningMode>
 	<Customizable>false</Customizable>
 	<VerticalScroll>useIfNecessary</VerticalScroll>
@@ -8,8 +8,8 @@
 		<ChildItems>
 			<Button name="ФормаВыполнитьОбмен" id="166">
 				<Type>CommandBarButton</Type>
+				<OnlyInAllActions>false</OnlyInAllActions>
 				<CommandName>Form.Command.ВыполнитьОбмен</CommandName>
-				<LocationInCommandBar>InAdditionalSubmenu</LocationInCommandBar>
 				<ExtendedTooltip name="ФормаВыполнитьОбменРасширеннаяПодсказка" id="167"/>
 			</Button>
 		</ChildItems>
@@ -34,7 +34,6 @@
 					<v8:content>Группа наименование</v8:content>
 				</v8:item>
 			</ToolTip>
-			<Behavior>Usual</Behavior>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
 			<ExtendedTooltip name="ГруппаНаименованиеРасширеннаяПодсказка" id="80"/>
@@ -73,7 +72,6 @@
 					<v8:content>Группа кластер</v8:content>
 				</v8:item>
 			</ToolTip>
-			<Behavior>Usual</Behavior>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
 			<ExtendedTooltip name="ГруппаКластерРасширеннаяПодсказка" id="116"/>
@@ -114,7 +112,6 @@
 					<v8:content>Страницы</v8:content>
 				</v8:item>
 			</ToolTip>
-			<PagesRepresentation>TabsOnTop</PagesRepresentation>
 			<ExtendedTooltip name="СтраницыРасширеннаяПодсказка" id="169"/>
 			<ChildItems>
 				<Page name="СтраницаОбщиеПараметры" id="178">
@@ -139,7 +136,6 @@
 									<v8:content>Группа тип ключа значения</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаТипКлючаЗначенияРасширеннаяПодсказка" id="253"/>
@@ -170,6 +166,14 @@
 											<xr:Value xsi:type="FormChoiceListDesTimeValue">
 												<Presentation/>
 												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.ДвоичныеДанные</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Uuid</Value>
 											</xr:Value>
 										</xr:Item>
 										<xr:Item>
@@ -265,6 +269,14 @@
 											<xr:CheckState>0</xr:CheckState>
 											<xr:Value xsi:type="FormChoiceListDesTimeValue">
 												<Presentation/>
+												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Uuid</Value>
+											</xr:Value>
+										</xr:Item>
+										<xr:Item>
+											<xr:Presentation/>
+											<xr:CheckState>0</xr:CheckState>
+											<xr:Value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
 												<Value xsi:type="xr:DesignTimeRef">Enum.КафкаСердес.EnumValue.Строка</Value>
 											</xr:Value>
 										</xr:Item>
@@ -335,7 +347,6 @@
 									<v8:content>Группа тема</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаТемаРасширеннаяПодсказка" id="89"/>
@@ -387,7 +398,6 @@
 								</v8:item>
 							</Title>
 							<Group>Vertical</Group>
-							<Behavior>Usual</Behavior>
 							<Representation>StrongSeparation</Representation>
 							<ExtendedTooltip name="ГруппаОбменРасширеннаяПодсказка" id="183"/>
 							<ChildItems>
@@ -398,7 +408,6 @@
 											<v8:content>Группа расписание</v8:content>
 										</v8:item>
 									</Title>
-									<Behavior>Usual</Behavior>
 									<Representation>None</Representation>
 									<ShowTitle>false</ShowTitle>
 									<ExtendedTooltip name="ГруппаРасписаниеРасширеннаяПодсказка" id="181"/>
@@ -446,7 +455,6 @@
 											</Title>
 											<Group>AlwaysHorizontal</Group>
 											<HorizontalSpacing>Half</HorizontalSpacing>
-											<Behavior>Usual</Behavior>
 											<Representation>None</Representation>
 											<ShowTitle>false</ShowTitle>
 											<ExtendedTooltip name="ГруппаОбменРасписаниеРазбросРасширеннаяПодсказка" id="230"/>
@@ -488,7 +496,6 @@
 											<v8:content>Группа обмен сеансы</v8:content>
 										</v8:item>
 									</Title>
-									<Behavior>Usual</Behavior>
 									<Representation>None</Representation>
 									<ShowTitle>false</ShowTitle>
 									<ExtendedTooltip name="ГруппаОбменСеансыРасширеннаяПодсказка" id="185"/>
@@ -502,7 +509,6 @@
 											</Title>
 											<Group>AlwaysHorizontal</Group>
 											<HorizontalSpacing>Half</HorizontalSpacing>
-											<Behavior>Usual</Behavior>
 											<Representation>None</Representation>
 											<ShowTitle>false</ShowTitle>
 											<ExtendedTooltip name="ГруппаОбменДлительностьСеансаРасширеннаяПодсказка" id="235"/>
@@ -555,7 +561,6 @@
 							</Title>
 							<Group>AlwaysHorizontal</Group>
 							<HorizontalSpacing>Half</HorizontalSpacing>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаКлиентТаймаутРасширеннаяПодсказка" id="240"/>
@@ -631,7 +636,6 @@
 									<v8:content>Группа прием</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаПриемРасширеннаяПодсказка" id="94"/>
@@ -660,7 +664,6 @@
 									</Title>
 									<Group>AlwaysHorizontal</Group>
 									<HorizontalSpacing>Half</HorizontalSpacing>
-									<Behavior>Usual</Behavior>
 									<Representation>None</Representation>
 									<ShowTitle>false</ShowTitle>
 									<ExtendedTooltip name="ГруппаПриемТаймаутОжиданияРасширеннаяПодсказка" id="245"/>
@@ -896,6 +899,17 @@
 											<ContextMenu name="ЗагрузкаПозицииКонечнаяКонтекстноеМеню" id="60"/>
 											<ExtendedTooltip name="ЗагрузкаПозицииКонечнаяРасширеннаяПодсказка" id="111"/>
 										</InputField>
+										<InputField name="ЗагрузкаПозицииОтставание" id="263">
+											<DataPath>ЗагрузкаПозиции.Отставание</DataPath>
+											<ReadOnly>true</ReadOnly>
+											<HorizontalAlign>Right</HorizontalAlign>
+											<EditMode>EnterOnInput</EditMode>
+											<FooterDataPath>ЗагрузкаОтставание</FooterDataPath>
+											<FooterHorizontalAlign>Right</FooterHorizontalAlign>
+											<Width>15</Width>
+											<ContextMenu name="ЗагрузкаПозицииОтставаниеКонтекстноеМеню" id="264"/>
+											<ExtendedTooltip name="ЗагрузкаПозицииОтставаниеРасширеннаяПодсказка" id="265"/>
+										</InputField>
 									</ChildItems>
 								</Table>
 							</ChildItems>
@@ -994,7 +1008,6 @@
 									<v8:content>Группа отправитель получатель</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаОтправительПолучательРасширеннаяПодсказка" id="206"/>
@@ -1007,7 +1020,6 @@
 										</v8:item>
 									</Title>
 									<Group>Vertical</Group>
-									<Behavior>Usual</Behavior>
 									<ExtendedTooltip name="ГруппаОтправительРасширеннаяПодсказка" id="208"/>
 									<ChildItems>
 										<InputField name="ОтправительИнфо" id="211">
@@ -1046,7 +1058,6 @@
 										</v8:item>
 									</Title>
 									<Group>Vertical</Group>
-									<Behavior>Usual</Behavior>
 									<ExtendedTooltip name="ГруппаПолучательРасширеннаяПодсказка" id="210"/>
 									<ChildItems>
 										<InputField name="ПолучательИнфо" id="217">
@@ -1205,6 +1216,21 @@
 						</v8:StringQualifiers>
 					</Type>
 				</Column>
+				<Column name="Отставание" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Отставание</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>50</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
 			</Columns>
 		</Attribute>
 		<Attribute name="ЗагрузкаПозицияКонечная" id="3">
@@ -1278,6 +1304,21 @@
 				<v8:Type>xs:string</v8:Type>
 				<v8:StringQualifiers>
 					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ЗагрузкаОтставание" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Загрузка отставание</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>50</v8:Length>
 					<v8:AllowedLength>Variable</v8:AllowedLength>
 				</v8:StringQualifiers>
 			</Type>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.15">
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.8">
 	<Customizable>false</Customizable>
 	<CommandSet>
 		<ExcludedCommand>Help</ExcludedCommand>
@@ -22,7 +22,6 @@
 					<v8:content>Группа шапка</v8:content>
 				</v8:item>
 			</ToolTip>
-			<Behavior>Usual</Behavior>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
 			<ExtendedTooltip name="ГруппаШапкаРасширеннаяПодсказка" id="196"/>
@@ -47,7 +46,6 @@
 					<v8:content>Страницы</v8:content>
 				</v8:item>
 			</Title>
-			<PagesRepresentation>TabsOnTop</PagesRepresentation>
 			<ExtendedTooltip name="ГруппаСтраницыРасширеннаяПодсказка" id="5"/>
 			<ChildItems>
 				<Page name="СтраницаМетаданные" id="6">
@@ -72,7 +70,6 @@
 									<v8:content>Метаданные группа1</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="МетаданныеГруппа1РасширеннаяПодсказка" id="19"/>
@@ -146,7 +143,6 @@
 									<v8:content>Группа настройки брокера1</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаНастройкиБрокера1РасширеннаяПодсказка" id="161"/>
@@ -302,7 +298,6 @@
 									<v8:content>Настройки темы группа1</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="НастройкиТемыГруппа1РасширеннаяПодсказка" id="95"/>
@@ -440,7 +435,6 @@
 									<v8:content>Фильтр</v8:content>
 								</v8:item>
 							</Title>
-							<Behavior>Usual</Behavior>
 							<ExtendedTooltip name="КонтрольДоступаФильтрРасширеннаяПодсказка" id="214"/>
 							<ChildItems>
 								<UsualGroup name="КонтрольДоступаФильтрResource" id="218">
@@ -456,7 +450,6 @@
 											<v8:content>Контроль доступа фильтр resource</v8:content>
 										</v8:item>
 									</ToolTip>
-									<Behavior>Usual</Behavior>
 									<Representation>None</Representation>
 									<ShowTitle>false</ShowTitle>
 									<ExtendedTooltip name="КонтрольДоступаФильтрResourceРасширеннаяПодсказка" id="219"/>
@@ -1083,7 +1076,6 @@
 									<v8:content>Создать тему группа1</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="СоздатьТемуГруппа1РасширеннаяПодсказка" id="34"/>
@@ -1114,7 +1106,6 @@
 									<v8:content>Создать тему группа2</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="СоздатьТемуГруппа2РасширеннаяПодсказка" id="44"/>
@@ -1186,7 +1177,6 @@
 									<v8:content>Позиции темы группа1</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ПозицииТемыГруппа1РасширеннаяПодсказка" id="54"/>
@@ -1365,7 +1355,6 @@
 									<v8:content>Получение сообщений группа2</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ПолучениеСообщенийГруппа2РасширеннаяПодсказка" id="76"/>
@@ -1396,7 +1385,6 @@
 									<v8:content>Получение сообщений группа1</v8:content>
 								</v8:item>
 							</ToolTip>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ПолучениеСообщенийГруппа1РасширеннаяПодсказка" id="72"/>
@@ -1447,7 +1435,6 @@
 									<v8:content>Группа прокси1</v8:content>
 								</v8:item>
 							</Title>
-							<Behavior>Usual</Behavior>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="ГруппаПрокси1РасширеннаяПодсказка" id="210"/>
