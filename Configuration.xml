@@ -47,7 +47,7 @@
 				<xr:Item xsi:type="xr:MDObjectRef">Role.КафкаАдминистрирование</xr:Item>
 			</DefaultRoles>
 			<Vendor>Савельев Сергей</Vendor>
-			<Version>4.1.1</Version>
+			<Version>4.1.2</Version>
 			<UpdateCatalogAddress/>
 			<IncludeHelpInContents>false</IncludeHelpInContents>
 			<UseManagedFormInOrdinaryApplication>false</UseManagedFormInOrdinaryApplication>
